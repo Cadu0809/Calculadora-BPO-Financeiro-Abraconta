@@ -80,14 +80,13 @@
             margin-top: 2px;
         }
 
-        /* CORREÇÃO DO LAYOUT: Grid de 3 colunas para acomodar o botão perfeitamente no centro vertical */
         .container {
             width: 100%;
             max-width: 1450px;
             display: grid;
             grid-template-columns: 1.3fr auto 1fr;
             gap: 25px;
-            align-items: center; /* Garante a centralização vertical de todos os elementos na linha */
+            align-items: center;
         }
 
         @media (max-width: 1024px) {
@@ -122,7 +121,7 @@
             border-radius: 16px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
             border: 1px solid var(--border-color);
-            height: 100%; /* Faz os painéis manterem a robustez visual */
+            height: 100%;
         }
 
         h2 {
@@ -279,7 +278,6 @@
             font-size: 1.2rem;
         }
 
-        /* AJUSTE DE UX/UI CRUCIAL: O botão agora voa no vão central entre os cards, alinhado no meio */
         .btn-calcular {
             padding: 24px 18px;
             background-color: var(--primary-accent);
@@ -291,21 +289,21 @@
             cursor: pointer;
             text-transform: uppercase;
             box-shadow: 0 4px 20px 0 rgba(16, 185, 129, 0.25);
-            writing-mode: vertical-lr; /* Escreve o texto na vertical para dar o efeito de conector elegante */
+            writing-mode: vertical-lr; 
             text-orientation: mixed;
             letter-spacing: 2px;
-            height: 280px; /* Altura ideal para clipar os dois blocos */
+            height: 280px; 
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease-in-out;
-            margin: 0 -5px; /* Sutil aproximação para selar o encaixe visual */
+            margin: 0 -5px; 
             z-index: 10;
         }
 
         @media (max-width: 1024px) {
             .btn-calcular {
-                writing-mode: horizontal-tb !important; /* Em telas menores ele volta a ser horizontal padrão */
+                writing-mode: horizontal-tb !important; 
                 height: auto !important;
                 padding: 16px;
             }
@@ -341,15 +339,63 @@
         .result-row.total {
             border-top: 2px solid var(--primary-accent);
             border-bottom: none;
-            margin-top: 30px;
-            padding-top: 25px;
-            font-size: 1.6rem;
+            margin-top: 25px;
+            padding-top: 20px;
+            font-size: 1.4rem;
         }
         
         .result-row.total span:last-child {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--primary-accent);
             font-weight: 800;
+        }
+
+        .result-row.yearly-info {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .result-row.yearly-info span:last-child {
+            color: #94A3B8;
+            font-weight: 500;
+        }
+
+        /* Estilização combinada para o container composto dos Pontos We.Brasil */
+        .points-container {
+            background-color: rgba(16, 185, 129, 0.06);
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .points-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #34D399;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.15);
+            padding-bottom: 6px;
+        }
+
+        .result-row.points-subrow {
+            border-bottom: none;
+            padding: 4px 0;
+            font-size: 0.9rem;
+        }
+
+        .result-row.points-subrow span:first-child {
+            color: var(--text-body);
+        }
+
+        .result-row.points-subrow span:last-child {
+            color: #A7F3D0;
+            font-weight: 700;
         }
 
         .badge-discount {
@@ -385,6 +431,7 @@
     </div>
 
     <div class="container">
+        <!-- Coluna 1: Inputs e Configurações -->
         <div class="panel">
             <h2>Variáveis do Cliente</h2>
             <div class="grid-inputs">
@@ -503,8 +550,10 @@
             <button class="btn-add-tier" onclick="addTierRow()">+ Adicionar Nova Faixa Comercial</button>
         </div>
 
+        <!-- Coluna 2: O Botão Conector Centralizado Verticalmente -->
         <button class="btn-calcular" onclick="calcularPreco()">CALCULAR PRECIFICAÇÃO</button>
 
+        <!-- Coluna 3: Resultados Visuais Premium -->
         <div class="panel result-panel">
             <div>
                 <h2>Resumo do Cenário</h2>
@@ -546,9 +595,29 @@
                 </div>
             </div>
 
-            <div class="result-row total">
-                <span>Assinatura Mensal:</span>
-                <span id="resTotal">R$ 0,00</span>
+            <div>
+                <div class="result-row total">
+                    <span>Assinatura Mensal:</span>
+                    <span id="resTotal">R$ 0,00</span>
+                </div>
+
+                <div class="result-row yearly-info">
+                    <span>Custo Anual Projetado:</span>
+                    <span id="resTotalAnual">R$ 0,00</span>
+                </div>
+
+                <!-- ATUALIZADO: Bloco Composto de Pontos We.Brasil (Mensal vs Anual) -->
+                <div class="points-container">
+                    <div class="points-title">Programa de Fidelidade We.Brasil</div>
+                    <div class="result-row points-subrow">
+                        <span>Pontuação Mensal:</span>
+                        <span id="resPontosMensal">0 pts</span>
+                    </div>
+                    <div class="result-row points-subrow">
+                        <span>Pontuação Anual Acumulada:</span>
+                        <span id="resPontosAnual">0 pts</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -677,13 +746,25 @@
         const totalContabil = valContabilFixo;
 
         const totalGeral = totalNotas + totalFinanceiro + totalFolha + totalContabil;
+        
+        const totalAnual = totalGeral * 12;
+        
+        // CORREÇÃO: Divisão clara entre os pontos mensais e anuais
+        const pontosMensais = Math.floor(totalGeral);
+        const pontosAnuais = Math.floor(totalAnual);
 
         document.getElementById('resTotalEventos').innerText = `${totalEventosOperacionais} eventos`;
         document.getElementById('resNotas').innerText = formatarMoeda(totalNotas);
         document.getElementById('resFinanceiro').innerText = formatarMoeda(totalFinanceiro);
         document.getElementById('resFolha').innerText = formatarMoeda(totalFolha);
         document.getElementById('resContabil').innerText = formatarMoeda(totalContabil);
+        
         document.getElementById('resTotal').innerText = formatarMoeda(totalGeral);
+        document.getElementById('resTotalAnual').innerText = formatarMoeda(totalAnual);
+        
+        // Renderização dos novos indicadores de pontos
+        document.getElementById('resPontosMensal').innerText = `${pontosMensais.toLocaleString('pt-BR')} pts`;
+        document.getElementById('resPontosAnual').innerText = `${pontosAnuais.toLocaleString('pt-BR')} pts`;
 
         const rowDesconto = document.getElementById('rowDesconto');
         const divAlert = document.getElementById('alertDesconto');
