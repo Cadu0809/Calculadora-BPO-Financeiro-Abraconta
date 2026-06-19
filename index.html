@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora BPO Financeiro - AbraConta</title>
+    <style>
+        :root {
+            --bg-main: #0B0F19;          
+            --bg-card: #1E2533;          
+            --primary-accent: #10B981;   
+            --primary-hover: #059669;    
+            --text-title: #FFFFFF;       
+            --text-body: #E2E8F0;        
+            --text-muted: #94A3B8;       
+            --border-color: #334155;     
+            --bg-input: #111827;         
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .brand-header {
+            width: 100%;
+            max-width: 1450px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand-logo-img {
+            height: 55px; 
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-title {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-left: 2px solid var(--border-color);
+            padding-left: 20px;
+        }
+
+        .brand-title h1 {
+            font-size: 1.4rem;
+            color: var(--text-title);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .brand-title p {
+            font-size: 0.85rem;
+            color: var(--primary-accent);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* CORREÇÃO DO LAYOUT: Grid de 3 colunas para acomodar o botão perfeitamente no centro vertical */
+        .container {
+            width: 100%;
+            max-width: 1450px;
+            display: grid;
+            grid-template-columns: 1.3fr auto 1fr;
+            gap: 25px;
+            align-items: center; /* Garante a centralização vertical de todos os elementos na linha */
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .brand-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+                align-items: center;
+            }
+            .brand-logo-area {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .brand-title {
+                border-left: none;
+                padding-left: 0;
+            }
+            .btn-calcular {
+                margin: 10px auto !important;
+                width: 100% !important;
+                max-width: 400px;
+            }
+        }
+
+        .panel {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            height: 100%; /* Faz os painéis manterem a robustez visual */
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: var(--text-title);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            color: var(--primary-accent);
+            margin: 30px 0 15px 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-body);
+            font-size: 0.85rem;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            color: var(--text-title);
+            background-color: var(--bg-input);
+            transition: all 0.2s ease-in-out;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+
+        .tier-table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tier-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            background-color: var(--bg-input);
+        }
+
+        .tier-table th, .tier-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+            vertical-align: middle;
+            color: var(--text-body);
+        }
+
+        .tier-table th {
+            background-color: rgba(15, 23, 42, 0.6);
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        .tier-table input {
+            padding: 8px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            text-align: center;
+            color: var(--text-title);
+            width: 100%;
+        }
+
+        .tier-table select {
+            padding: 8px 28px 8px 10px; 
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-title);
+            width: 100%;
+        }
+
+        .inputs-compostos-preco {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .inputs-compostos-preco div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .inputs-compostos-preco label {
+            font-size: 0.7rem;
+            margin-bottom: 4px;
+            color: var(--text-muted);
+        }
+
+        .inputs-compostos-preco input {
+            font-size: 0.8rem;
+            padding: 6px;
+            width: 100%;
+        }
+
+        .btn-add-tier {
+            background: none;
+            border: none;
+            color: var(--primary-accent);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 5px 0;
+            margin-bottom: 10px;
+        }
+
+        .btn-remove {
+            color: #EF4444;
+            cursor: pointer;
+            font-weight: bold;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+        }
+
+        /* AJUSTE DE UX/UI CRUCIAL: O botão agora voa no vão central entre os cards, alinhado no meio */
+        .btn-calcular {
+            padding: 24px 18px;
+            background-color: var(--primary-accent);
+            color: var(--bg-main);
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 20px 0 rgba(16, 185, 129, 0.25);
+            writing-mode: vertical-lr; /* Escreve o texto na vertical para dar o efeito de conector elegante */
+            text-orientation: mixed;
+            letter-spacing: 2px;
+            height: 280px; /* Altura ideal para clipar os dois blocos */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease-in-out;
+            margin: 0 -5px; /* Sutil aproximação para selar o encaixe visual */
+            z-index: 10;
+        }
+
+        @media (max-width: 1024px) {
+            .btn-calcular {
+                writing-mode: horizontal-tb !important; /* Em telas menores ele volta a ser horizontal padrão */
+                height: auto !important;
+                padding: 16px;
+            }
+        }
+
+        .btn-calcular:hover {
+            background-color: var(--primary-hover);
+            transform: scale(1.03);
+            box-shadow: 0 6px 24px 0 rgba(16, 185, 129, 0.4);
+        }
+
+        .result-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #1E2533 0%, #111622 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+            font-size: 0.95rem;
+        }
+
+        .result-row span:first-child {
+            color: var(--text-body);
+        }
+
+        .result-row.total {
+            border-top: 2px solid var(--primary-accent);
+            border-bottom: none;
+            margin-top: 30px;
+            padding-top: 25px;
+            font-size: 1.6rem;
+        }
+        
+        .result-row.total span:last-child {
+            font-size: 2rem;
+            color: var(--primary-accent);
+            font-weight: 800;
+        }
+
+        .badge-discount {
+            background-color: rgba(16, 185, 129, 0.12);
+            color: var(--primary-accent);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            width: 100%;
+            margin-top: 15px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .obs-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="brand-header">
+        <div class="brand-logo-area">
+            <img class="brand-logo-img" src="https://www.abraconta.com.br/wp-content/uploads/2023/11/abraconta-scaled-e1760382348820-1024x214.png" alt="AbraConta Logo">
+            <div class="brand-title">
+                <h1>Calculadora BPO Financeiro</h1>
+                <p>Ecossistema Comercial AbraConta</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="panel">
+            <h2>Variáveis do Cliente</h2>
+            <div class="grid-inputs">
+                <div class="form-group">
+                    <label>Quantidade de Notas (Mês)</label>
+                    <input type="text" id="qtdNotas" value="20">
+                </div>
+                <div class="form-group">
+                    <label>Contas a Receber (Mês)</label>
+                    <input type="text" id="qtdReceber" value="20">
+                </div>
+                <div class="form-group">
+                    <label>Contas a Pagar (Mês)</label>
+                    <input type="text" id="qtdPagar" value="20">
+                </div>
+                <div class="form-group">
+                    <label>Vidas (Folha de Pagto)</label>
+                    <input type="text" id="qtdFolha" value="0">
+                </div>
+            </div>
+
+            <div class="section-title">Precificação de Serviços (Tabela Base)</div>
+            <div class="grid-inputs">
+                <div class="form-group">
+                    <label>Valor Unit. por Nota</label>
+                    <input type="text" id="valNota" value="R$ 10,00" onblur="formatarCampoMoeda(this)">
+                </div>
+                <div class="form-group">
+                    <label>Valor Unit. Contas a Receber</label>
+                    <input type="text" id="valReceber" value="R$ 15,00" onblur="formatarCampoMoeda(this)">
+                </div>
+                <div class="form-group">
+                    <label>Valor Unit. Contas a Pagar</label>
+                    <input type="text" id="valPagar" value="R$ 15,00" onblur="formatarCampoMoeda(this)">
+                </div>
+                <div class="form-group">
+                    <label>Valor Unit. Vidas Folha</label>
+                    <input type="text" id="valFolha" value="R$ 70,00" onblur="formatarCampoMoeda(this)">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Valor FIXO Contábil/Fiscal</label>
+                    <input type="text" id="valContabilFix" value="R$ 139,90" onblur="formatarCampoMoeda(this)">
+                    <span class="obs-text">*Honorário contábil fixo imune a regras de desconto</span>
+                </div>
+            </div>
+
+            <div class="section-title">Faixas de Precificação Progressiva (De / Até)</div>
+            <div class="tier-table-wrapper">
+                <table class="tier-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">De</th>
+                            <th style="width: 80px;">Até</th>
+                            <th style="width: 220px; text-align: left; padding-left: 15px;">Critério de Aplicação</th>
+                            <th>Configuração dos Valores por Faixa</th>
+                            <th style="width: 40px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tierTableBody">
+                        <tr>
+                            <td><input type="text" class="tier-from" value="0"></td>
+                            <td><input type="text" class="tier-to" value="20"></td>
+                            <td>
+                                <select class="tier-type" onchange="alternarCamposFaixa(this)">
+                                    <option value="percentage" selected>Percentual de Descon. (%)</option>
+                                    <option value="fixed">Preço Unitário Fixo (R$)</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div class="container-valores-faixa">
+                                    <input type="text" class="tier-pct-val" value="0">
+                                </div>
+                            </td>
+                            <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="tier-from" value="21"></td>
+                            <td><input type="text" class="tier-to" value="50"></td>
+                            <td>
+                                <select class="tier-type" onchange="alternarCamposFaixa(this)">
+                                    <option value="percentage" selected>Percentual de Descon. (%)</option>
+                                    <option value="fixed">Preço Unitário Fixo (R$)</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div class="container-valores-faixa">
+                                    <input type="text" class="tier-pct-val" value="5">
+                                </div>
+                            </td>
+                            <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="tier-from" value="51"></td>
+                            <td><input type="text" class="tier-to" value="100"></td>
+                            <td>
+                                <select class="tier-type" onchange="alternarCamposFaixa(this)">
+                                    <option value="percentage">Percentual de Descon. (%)</option>
+                                    <option value="fixed" selected>Preço Unitário Fixo (R$)</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div class="container-valores-faixa">
+                                    <div class="inputs-compostos-preco">
+                                        <div><label>Nota</label><input type="text" class="t-val-nota" value="R$ 8,00" onblur="formatarCampoMoeda(this)"></div>
+                                        <div><label>Receber</label><input type="text" class="t-val-rec" value="R$ 12,00" onblur="formatarCampoMoeda(this)"></div>
+                                        <div><label>Pagar</label><input type="text" class="t-val-pag" value="R$ 12,00" onblur="formatarCampoMoeda(this)"></div>
+                                        <div><label>Folha</label><input type="text" class="t-val-fol" value="R$ 60,00" onblur="formatarCampoMoeda(this)"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn-add-tier" onclick="addTierRow()">+ Adicionar Nova Faixa Comercial</button>
+        </div>
+
+        <button class="btn-calcular" onclick="calcularPreco()">CALCULAR PRECIFICAÇÃO</button>
+
+        <div class="panel result-panel">
+            <div>
+                <h2>Resumo do Cenário</h2>
+                
+                <div class="result-row">
+                    <span>Volume Operacional (Notas + Fin):</span>
+                    <span id="resTotalEventos">0 eventos</span>
+                </div>
+
+                <div class="result-row">
+                    <span>Pacote Emissão de Notas:</span>
+                    <span id="resNotas">R$ 0,00</span>
+                </div>
+                
+                <div class="result-row">
+                    <span>Pacote Financeiro (Pagar/Receber):</span>
+                    <span id="resFinanceiro">R$ 0,00</span>
+                </div>
+                
+                <div class="result-row">
+                    <span>Pacote Folha de Pagamento:</span>
+                    <span id="resFolha">R$ 0,00</span>
+                </div>
+                
+                <div class="result-row">
+                    <span>Honorário Fiscal & Contábil (Fixo):</span>
+                    <span id="resContabil">R$ 0,00</span>
+                </div>
+
+                <div class="result-row" id="rowDesconto" style="display: none;">
+                    <span>Regra Ativada na Faixa:</span>
+                    <span id="resDescontoPerc" style="color: var(--primary-accent);">Nenhum</span>
+                </div>
+
+                <div id="alertDesconto" style="display: none;">
+                    <div class="badge-discount">
+                        <span id="txtBadge">Estratégia de Desconto Ativa</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-row total">
+                <span>Assinatura Mensal:</span>
+                <span id="resTotal">R$ 0,00</span>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function parseBr(valor) {
+        if (!valor) return 0;
+        let limpo = valor.toString().replace(/R\$\s?/g, '').replace(/\s/g, '').replace(',', '.');
+        return parseFloat(limpo) || 0;
+    }
+
+    function formatarMoeda(valor) {
+        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function formatarCampoMoeda(input) {
+        let num = parseBr(input.value);
+        input.value = formatarMoeda(num);
+    }
+
+    function alternarCamposFaixa(selectElement) {
+        const container = selectElement.parentNode.parentNode.querySelector('.container-valores-faixa');
+        if (selectElement.value === 'percentage') {
+            container.innerHTML = `<input type="text" class="tier-pct-val" value="0" placeholder="0">`;
+        } else {
+            container.innerHTML = `
+                <div class="inputs-compostos-preco">
+                    <div><label>Nota</label><input type="text" class="t-val-nota" value="R$ 0,00" onblur="formatarCampoMoeda(this)"></div>
+                    <div><label>Receber</label><input type="text" class="t-val-rec" value="R$ 0,00" onblur="formatarCampoMoeda(this)"></div>
+                    <div><label>Pagar</label><input type="text" class="t-val-pag" value="R$ 0,00" onblur="formatarCampoMoeda(this)"></div>
+                    <div><label>Folha</label><input type="text" class="t-val-fol" value="R$ 0,00" onblur="formatarCampoMoeda(this)"></div>
+                </div>
+            `;
+        }
+    }
+
+    function addTierRow() {
+        const tbody = document.getElementById('tierTableBody');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><input type="text" class="tier-from" value="0"></td>
+            <td><input type="text" class="tier-to" value="0"></td>
+            <td>
+                <select class="tier-type" onchange="alternarCamposFaixa(this)">
+                    <option value="percentage" selected>Percentual de Descon. (%)</option>
+                    <option value="fixed">Preço Unitário Fixo (R$)</option>
+                </select>
+            </td>
+            <td>
+                <div class="container-valores-faixa">
+                    <input type="text" class="tier-pct-val" value="0">
+                </div>
+            </td>
+            <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
+        `;
+        tbody.appendChild(tr);
+    }
+
+    function removeRow(button) {
+        button.parentNode.parentNode.remove();
+    }
+
+    function calcularPreco() {
+        const qtdNotas = parseBr(document.getElementById('qtdNotas').value);
+        const qtdReceber = parseBr(document.getElementById('qtdReceber').value);
+        const qtdPagar = parseBr(document.getElementById('qtdPagar').value);
+        const qtdFolha = parseBr(document.getElementById('qtdFolha').value);
+
+        let valUnitNota = parseBr(document.getElementById('valNota').value);
+        let valUnitRec = parseBr(document.getElementById('valReceber').value);
+        let valUnitPag = parseBr(document.getElementById('valPagar').value);
+        let valUnitFolha = parseBr(document.getElementById('valFolha').value);
+        const valContabilFixo = parseBr(document.getElementById('valContabilFix').value);
+
+        const totalEventosOperacionais = qtdNotas + qtdReceber + qtdPagar;
+
+        const rows = document.querySelectorAll('#tierTableBody tr');
+        let faixaEncontrada = null;
+
+        for (let row of rows) {
+            const de = parseBr(row.querySelector('.tier-from').value);
+            const ate = parseBr(row.querySelector('.tier-to').value);
+
+            if (totalEventosOperacionais >= de && totalEventosOperacionais <= ate) {
+                faixaEncontrada = row;
+                break;
+            }
+        }
+
+        let badgeMsg = "";
+        let resumoMsg = "Preço Padrão";
+
+        if (faixaEncontrada) {
+            const tipo = faixaEncontrada.querySelector('.tier-type').value;
+            
+            if (tipo === 'percentage') {
+                const pct = parseBr(faixaEncontrada.querySelector('.tier-pct-val').value);
+                if (pct > 0) {
+                    const fator = (100 - pct) / 100;
+                    valUnitNota *= fator;
+                    valUnitRec *= fator;
+                    valUnitPag *= fator;
+                    valUnitFolha *= fator;
+                    resumoMsg = `Desconto de ${pct}%`;
+                    badgeMsg = `Dedução de ${pct}% injetada sobre as tabelas variáveis.`;
+                }
+            } else {
+                const nNota = parseBr(faixaEncontrada.querySelector('.t-val-nota').value);
+                const nRec = parseBr(faixaEncontrada.querySelector('.t-val-rec').value);
+                const nPag = parseBr(faixaEncontrada.querySelector('.t-val-pag').value);
+                const nFol = parseBr(faixaEncontrada.querySelector('.t-val-fol').value);
+
+                if (nNota > 0) valUnitNota = nNota;
+                if (nRec > 0) valUnitRec = nRec;
+                if (nPag > 0) valUnitPag = nPag;
+                if (nFol > 0) valUnitFolha = nFol;
+
+                resumoMsg = "Preços Customizados";
+                badgeMsg = "Preços unitários fixados manualmente para este teto operacional.";
+            }
+        }
+
+        const totalNotas = qtdNotas * valUnitNota;
+        const totalFinanceiro = (qtdReceber * valUnitRec) + (qtdPagar * valUnitPag);
+        const totalFolha = qtdFolha * valUnitFolha;
+        const totalContabil = valContabilFixo;
+
+        const totalGeral = totalNotas + totalFinanceiro + totalFolha + totalContabil;
+
+        document.getElementById('resTotalEventos').innerText = `${totalEventosOperacionais} eventos`;
+        document.getElementById('resNotas').innerText = formatarMoeda(totalNotas);
+        document.getElementById('resFinanceiro').innerText = formatarMoeda(totalFinanceiro);
+        document.getElementById('resFolha').innerText = formatarMoeda(totalFolha);
+        document.getElementById('resContabil').innerText = formatarMoeda(totalContabil);
+        document.getElementById('resTotal').innerText = formatarMoeda(totalGeral);
+
+        const rowDesconto = document.getElementById('rowDesconto');
+        const divAlert = document.getElementById('alertDesconto');
+        const txtBadge = document.getElementById('txtBadge');
+        const resDescontoPerc = document.getElementById('resDescontoPerc');
+
+        if (badgeMsg !== "") {
+            rowDesconto.style.display = 'flex';
+            divAlert.style.display = 'block';
+            resDescontoPerc.innerText = resumoMsg;
+            txtBadge.innerText = badgeMsg;
+        } else {
+            rowDesconto.style.display = 'none';
+            divAlert.style.display = 'none';
+        }
+    }
+
+    window.onload = calcularPreco;
+</script>
+</body>
+</html>
