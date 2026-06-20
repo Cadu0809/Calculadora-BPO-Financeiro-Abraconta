@@ -45,17 +45,8 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .brand-logo-area {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .brand-logo-img {
-            height: 55px; 
-            width: auto;
-            object-fit: contain;
-        }
+        .brand-logo-area { display: flex; align-items: center; gap: 20px; }
+        .brand-logo-img { height: 55px; width: auto; object-fit: contain; }
 
         .brand-title {
             display: flex;
@@ -65,357 +56,176 @@
             padding-left: 20px;
         }
 
-        .brand-title h1 {
-            font-size: 1.4rem;
-            color: var(--text-title);
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            line-height: 1.2;
+        .brand-title h1 { font-size: 1.4rem; color: var(--text-title); font-weight: 700; line-height: 1.2; }
+        .brand-title p { font-size: 0.85rem; color: var(--primary-accent); font-weight: 500; margin-top: 2px; }
+
+        .btn-config {
+            background: none; border: 1px solid var(--border-color); color: var(--text-muted);
+            padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 1rem;
+            display: flex; align-items: center; gap: 8px; transition: all 0.2s;
         }
 
-        .brand-title p {
-            font-size: 0.85rem;
-            color: var(--primary-accent);
-            font-weight: 500;
-            margin-top: 2px;
+        .btn-config:hover {
+            color: var(--text-title); border-color: var(--primary-accent); background-color: rgba(16, 185, 129, 0.05);
         }
 
         .container {
-            width: 100%;
-            max-width: 1450px;
-            display: grid;
-            grid-template-columns: 1.3fr auto 1fr;
-            gap: 25px;
-            align-items: center;
+            width: 100%; max-width: 1450px;
+            display: grid; grid-template-columns: 1.25fr 1fr; gap: 30px;
         }
 
         @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            .brand-header {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-                align-items: center;
-            }
-            .brand-logo-area {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .brand-title {
-                border-left: none;
-                padding-left: 0;
-            }
-            .btn-calcular {
-                margin: 10px auto !important;
-                width: 100% !important;
-                max-width: 400px;
-            }
+            .container { grid-template-columns: 1fr; gap: 30px; }
+            .brand-header { flex-direction: column; gap: 15px; text-align: center; align-items: center;}
+            .brand-title { border-left: none; padding-left: 0; }
         }
 
         .panel {
-            background: var(--bg-card);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
-            height: 100%;
+            background: var(--bg-card); padding: 30px; border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); border: 1px solid var(--border-color);
         }
 
-        h2 {
-            margin-bottom: 25px;
-            color: var(--text-title);
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
+        h2 { margin-bottom: 25px; color: var(--text-title); font-size: 1.25rem; font-weight: 600; }
 
         .section-title {
-            font-size: 0.85rem;
-            color: var(--primary-accent);
-            margin: 30px 0 15px 0;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 0.85rem; color: var(--primary-accent); margin: 25px 0 15px 0;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 8px;
         }
 
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border-color);
-        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border-color); }
+        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { margin-bottom: 5px; }
 
-        .grid-inputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 5px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-body);
-            font-size: 0.85rem;
-        }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-body); font-size: 0.85rem; }
 
         input[type="text"], select {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-            color: var(--text-title);
-            background-color: var(--bg-input);
-            transition: all 0.2s ease-in-out;
+            width: 100%; padding: 12px 14px; border: 1px solid var(--border-color);
+            border-radius: 8px; font-size: 0.95rem; outline: none;
+            color: var(--text-title); background-color: var(--bg-input); transition: all 0.2s ease-in-out;
         }
 
-        input[type="text"]:focus, select:focus {
-            border-color: var(--primary-accent);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        input[type="text"]:focus, select:focus { border-color: var(--primary-accent); }
+
+        .switch-container {
+            display: flex; align-items: center; justify-content: space-between;
+            background-color: var(--bg-input); padding: 14px 20px; border-radius: 10px;
+            border: 1px solid var(--border-color); margin-top: 15px;
         }
 
-        .tier-table-wrapper {
-            overflow-x: auto;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+        .switch-label-block { display: flex; flex-direction: column; }
+        .switch-label-block span:first-child { font-size: 0.9rem; font-weight: 700; color: var(--text-title); }
+        .switch-label-block span:last-child { font-size: 0.75rem; color: var(--text-muted); }
+
+        .switch { position: relative; display: inline-block; width: 52px; height: 28px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #374151; transition: .3s; border-radius: 34px;
         }
 
-        .tier-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-            background-color: var(--bg-input);
+        .slider:before {
+            position: absolute; content: ""; height: 20px; width: 20px;
+            left: 4px; bottom: 4px; background-color: white; transition: .3s; border-radius: 50%;
         }
 
-        .tier-table th, .tier-table td {
-            padding: 12px 10px;
-            border-bottom: 1px solid var(--border-color);
-            text-align: center;
-            vertical-align: middle;
-            color: var(--text-body);
-        }
+        input:checked + .slider { background-color: var(--primary-accent); }
+        input:checked + .slider:before { transform: translateX(24px); }
 
-        .tier-table th {
-            background-color: rgba(15, 23, 42, 0.6);
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-        }
-
-        .tier-table input {
-            padding: 8px;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            text-align: center;
-            color: var(--text-title);
-            width: 100%;
-        }
-
-        .tier-table select {
-            padding: 8px 28px 8px 10px; 
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: var(--text-title);
-            width: 100%;
-        }
-
-        .inputs-compostos-preco {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-        }
-
-        .inputs-compostos-preco div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .inputs-compostos-preco label {
-            font-size: 0.7rem;
-            margin-bottom: 4px;
-            color: var(--text-muted);
-        }
-
-        .inputs-compostos-preco input {
-            font-size: 0.8rem;
-            padding: 6px;
-            width: 100%;
-        }
-
-        .btn-add-tier {
-            background: none;
-            border: none;
-            color: var(--primary-accent);
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            padding: 5px 0;
-            margin-bottom: 10px;
-        }
-
-        .btn-remove {
-            color: #EF4444;
-            cursor: pointer;
-            font-weight: bold;
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-        }
-
-        .btn-calcular {
-            padding: 24px 18px;
-            background-color: var(--primary-accent);
-            color: var(--bg-main);
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 800;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 0 4px 20px 0 rgba(16, 185, 129, 0.25);
-            writing-mode: vertical-lr; 
-            text-orientation: mixed;
-            letter-spacing: 2px;
-            height: 280px; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease-in-out;
-            margin: 0 -5px; 
-            z-index: 10;
-        }
-
-        @media (max-width: 1024px) {
-            .btn-calcular {
-                writing-mode: horizontal-tb !important; 
-                height: auto !important;
-                padding: 16px;
-            }
-        }
-
-        .btn-calcular:hover {
-            background-color: var(--primary-hover);
-            transform: scale(1.03);
-            box-shadow: 0 6px 24px 0 rgba(16, 185, 129, 0.4);
-        }
-
-        .result-panel {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background: linear-gradient(135deg, #1E2533 0%, #111622 100%);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        .result-panel { background: linear-gradient(135deg, #1E2533 0%, #111622 100%); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; justify-content: space-between; }
 
         .result-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
-            font-size: 0.95rem;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.08); font-size: 0.95rem;
         }
 
-        .result-row span:first-child {
-            color: var(--text-body);
+        /* NOVO: Destaque especial em Neon para a linha do Pacote Premiado */
+        .result-row.neon-highlight {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.08) 0%, rgba(11, 15, 25, 0) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            padding: 12px 10px;
+            margin: 8px 0;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
         }
+        .result-row.neon-highlight span:last-child {
+            font-weight: 800;
+            color: #34D399;
+            text-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
+            font-size: 1.05rem;
+            letter-spacing: 0.3px;
+        }
+
+        .row-toggle {
+            cursor: pointer; user-select: none; transition: background-color 0.2s;
+        }
+        .row-toggle:hover { background-color: rgba(255, 255, 255, 0.03); }
+        
+        .toggle-icon {
+            display: inline-block; font-size: 0.75rem; margin-right: 6px;
+            transition: transform 0.2s ease; color: var(--text-muted);
+        }
+        .row-toggle.active .toggle-icon { transform: rotate(90deg); color: var(--primary-accent); }
+
+        .indent-container {
+            max-height: 0; overflow: hidden; transition: max-height 0.25s ease-out;
+            background-color: rgba(0, 0, 0, 0.1); border-radius: 6px;
+        }
+
+        .result-row.indent { 
+            padding: 10px 12px 10px 24px; font-size: 0.88rem; color: var(--text-muted); border-bottom: 1px solid rgba(255, 255, 255, 0.02); 
+        }
+        .result-row.indent span:first-child { color: var(--text-muted); font-weight: normal; }
 
         .result-row.total {
-            border-top: 2px solid var(--primary-accent);
-            border-bottom: none;
-            margin-top: 25px;
-            padding-top: 20px;
-            font-size: 1.4rem;
+            border-top: 2px solid var(--primary-accent); border-bottom: none;
+            margin-top: 20px; padding-top: 20px; font-size: 1.4rem;
         }
         
-        .result-row.total span:last-child {
-            font-size: 1.8rem;
-            color: var(--primary-accent);
-            font-weight: 800;
-        }
+        .result-row.total span:last-child { font-size: 1.8rem; color: var(--primary-accent); font-weight: 800; }
+        .result-row.yearly-info { border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-muted); font-size: 0.9rem; }
 
-        .result-row.yearly-info {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .result-row.yearly-info span:last-child {
-            color: #94A3B8;
-            font-weight: 500;
-        }
-
-        /* Estilização combinada para o container composto dos Pontos We.Brasil */
         .points-container {
-            background-color: rgba(16, 185, 129, 0.06);
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(16, 185, 129, 0.15);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            background-color: rgba(16, 185, 129, 0.06); margin-top: 15px; padding: 12px;
+            border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.15); display: flex; flex-direction: column; gap: 8px;
         }
 
-        .points-title {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            color: #34D399;
-            border-bottom: 1px solid rgba(16, 185, 129, 0.15);
-            padding-bottom: 6px;
+        .points-title { font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #34D399; border-bottom: 1px solid rgba(16, 185, 129, 0.15); padding-bottom: 4px; }
+        .result-row.points-subrow { border-bottom: none; padding: 2px 0; font-size: 0.85rem;}
+        .result-row.points-subrow span:last-child { color: #A7F3D0; font-weight: 700; }
+        .points-subtext { font-size: 0.75rem; color: var(--text-muted); text-align: right; margin-top: -4px; margin-bottom: 2px; }
+
+        /* Modal Layout */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75); display: flex; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .modal-content {
+            background: var(--bg-card); padding: 30px; border-radius: 16px;
+            width: 95%; max-width: 1050px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color);
         }
 
-        .result-row.points-subrow {
-            border-bottom: none;
-            padding: 4px 0;
-            font-size: 0.9rem;
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px;
         }
 
-        .result-row.points-subrow span:first-child {
-            color: var(--text-body);
+        .btn-close-modal {
+            background: var(--primary-accent); color: var(--bg-main); border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer;
         }
 
-        .result-row.points-subrow span:last-child {
-            color: #A7F3D0;
-            font-weight: 700;
-        }
-
-        .badge-discount {
-            background-color: rgba(16, 185, 129, 0.12);
-            color: var(--primary-accent);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            display: inline-flex;
-            width: 100%;
-            margin-top: 15px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-
-        .obs-text {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            display: block;
-            margin-top: 4px;
-        }
+        .tier-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; background-color: var(--bg-input); }
+        .tier-table th, .tier-table td { padding: 10px 4px; border-bottom: 1px solid var(--border-color); text-align: center; color: var(--text-body); }
+        .tier-table th { background-color: rgba(15, 23, 42, 0.6); color: var(--text-muted); }
+        .tier-table input { padding: 6px 2px; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; text-align: center; color: var(--text-title); width: 100%; }
+        
+        .btn-action-tier { background: none; border: none; font-weight: bold; cursor: pointer; font-size: 0.85rem; }
+        .btn-add-action { color: var(--primary-accent); margin-top: 15px; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-remove { color: #EF4444; cursor: pointer; font-weight: bold; background: none; border: none; font-size: 1.2rem; }
     </style>
 </head>
 <body>
@@ -428,170 +238,123 @@
                 <p>Ecossistema Comercial AbraConta</p>
             </div>
         </div>
+        <button class="btn-config" onclick="toggleModal(true)">
+            <span>⚙️ Parâmetros Técnicos</span>
+        </button>
     </div>
 
     <div class="container">
-        <!-- Coluna 1: Inputs e Configurações -->
+        <!-- Esquerda: Inputs -->
         <div class="panel">
-            <h2>Variáveis do Cliente</h2>
+            <h2>Volumetria Mensal Operacional</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 25px;">
+                Insira as demandas reais do cliente. O enquadramento de pacotes e o diagnóstico de precificação acontecem em tempo real.
+            </p>
+            
             <div class="grid-inputs">
                 <div class="form-group">
-                    <label>Quantidade de Notas (Mês)</label>
-                    <input type="text" id="qtdNotas" value="20">
+                    <label>Quantidade de Notas Emitidas</label>
+                    <input type="text" id="qtdNotas" value="25" oninput="sincronizarContasReceber();">
                 </div>
                 <div class="form-group">
-                    <label>Contas a Receber (Mês)</label>
-                    <input type="text" id="qtdReceber" value="20">
-                </div>
-                <div class="form-group">
-                    <label>Contas a Pagar (Mês)</label>
-                    <input type="text" id="qtdPagar" value="20">
-                </div>
-                <div class="form-group">
-                    <label>Vidas (Folha de Pagto)</label>
-                    <input type="text" id="qtdFolha" value="0">
-                </div>
-            </div>
-
-            <div class="section-title">Precificação de Serviços (Tabela Base)</div>
-            <div class="grid-inputs">
-                <div class="form-group">
-                    <label>Valor Unit. por Nota</label>
-                    <input type="text" id="valNota" value="R$ 10,00" onblur="formatarCampoMoeda(this)">
-                </div>
-                <div class="form-group">
-                    <label>Valor Unit. Contas a Receber</label>
-                    <input type="text" id="valReceber" value="R$ 15,00" onblur="formatarCampoMoeda(this)">
-                </div>
-                <div class="form-group">
-                    <label>Valor Unit. Contas a Pagar</label>
-                    <input type="text" id="valPagar" value="R$ 15,00" onblur="formatarCampoMoeda(this)">
-                </div>
-                <div class="form-group">
-                    <label>Valor Unit. Vidas Folha</label>
-                    <input type="text" id="valFolha" value="R$ 70,00" onblur="formatarCampoMoeda(this)">
+                    <label>Lançamentos Contas a Receber (Espelhado)</label>
+                    <input type="text" id="qtdReceber" value="25" disabled style="opacity: 0.5; background-color: #1f2937;">
                 </div>
                 <div class="form-group" style="grid-column: span 2;">
-                    <label>Valor FIXO Contábil/Fiscal</label>
-                    <input type="text" id="valContabilFix" value="R$ 139,90" onblur="formatarCampoMoeda(this)">
-                    <span class="obs-text">*Honorário contábil fixo imune a regras de desconto</span>
+                    <label>Lançamentos Contas a Pagar</label>
+                    <input type="text" id="qtdPagar" value="25" oninput="diagnosticarEDescobrirPacote();">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Quantidade de Vidas (Folha de Pagamento)</label>
+                    <input type="text" id="qtdFolha" value="0" oninput="verificarGatilhoFolhaContabil();">
                 </div>
             </div>
 
-            <div class="section-title">Faixas de Precificação Progressiva (De / Até)</div>
-            <div class="tier-table-wrapper">
-                <table class="tier-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 80px;">De</th>
-                            <th style="width: 80px;">Até</th>
-                            <th style="width: 220px; text-align: left; padding-left: 15px;">Critério de Aplicação</th>
-                            <th>Configuração dos Valores por Faixa</th>
-                            <th style="width: 40px;"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="tierTableBody">
-                        <tr>
-                            <td><input type="text" class="tier-from" value="0"></td>
-                            <td><input type="text" class="tier-to" value="20"></td>
-                            <td>
-                                <select class="tier-type" onchange="alternarCamposFaixa(this)">
-                                    <option value="percentage" selected>Percentual de Descon. (%)</option>
-                                    <option value="fixed">Preço Unitário Fixo (R$)</option>
-                                </select>
-                            </td>
-                            <td>
-                                <div class="container-valores-faixa">
-                                    <input type="text" class="tier-pct-val" value="0">
-                                </div>
-                            </td>
-                            <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="tier-from" value="21"></td>
-                            <td><input type="text" class="tier-to" value="50"></td>
-                            <td>
-                                <select class="tier-type" onchange="alternarCamposFaixa(this)">
-                                    <option value="percentage" selected>Percentual de Descon. (%)</option>
-                                    <option value="fixed">Preço Unitário Fixo (R$)</option>
-                                </select>
-                            </td>
-                            <td>
-                                <div class="container-valores-faixa">
-                                    <input type="text" class="tier-pct-val" value="5">
-                                </div>
-                            </td>
-                            <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" class="tier-from" value="51"></td>
-                            <td><input type="text" class="tier-to" value="100"></td>
-                            <td>
-                                <select class="tier-type" onchange="alternarCamposFaixa(this)">
-                                    <option value="percentage">Percentual de Descon. (%)</option>
-                                    <option value="fixed" selected>Preço Unitário Fixo (R$)</option>
-                                </select>
-                            </td>
-                            <td>
-                                <div class="container-valores-faixa">
-                                    <div class="inputs-compostos-preco">
-                                        <div><label>Nota</label><input type="text" class="t-val-nota" value="R$ 8,00" onblur="formatarCampoMoeda(this)"></div>
-                                        <div><label>Receber</label><input type="text" class="t-val-rec" value="R$ 12,00" onblur="formatarCampoMoeda(this)"></div>
-                                        <div><label>Pagar</label><input type="text" class="t-val-pag" value="R$ 12,00" onblur="formatarCampoMoeda(this)"></div>
-                                        <div><label>Folha</label><input type="text" class="t-val-fol" value="R$ 60,00" onblur="formatarCampoMoeda(this)"></div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="switch-container">
+                <div class="switch-label-block">
+                    <span>Contratar Pacote Fiscal & Contábil?</span>
+                    <span>Ativa o honorário integrado da AbraConta</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="chkContabil" onchange="diagnosticarEDescobrirPacote()">
+                    <span class="slider"></span>
+                </label>
             </div>
-            <button class="btn-add-tier" onclick="addTierRow()">+ Adicionar Nova Faixa Comercial</button>
         </div>
 
-        <!-- Coluna 2: O Botão Conector Centralizado Verticalmente -->
-        <button class="btn-calcular" onclick="calcularPreco()">CALCULAR PRECIFICAÇÃO</button>
-
-        <!-- Coluna 3: Resultados Visuais Premium -->
+        <!-- Direita: Diagnóstico Detalhado -->
         <div class="panel result-panel">
             <div>
-                <h2>Resumo do Cenário</h2>
+                <h2>Diagnóstico Automático</h2>
                 
                 <div class="result-row">
-                    <span>Volume Operacional (Notas + Fin):</span>
-                    <span id="resTotalEventos">0 eventos</span>
-                </div>
-
-                <div class="result-row">
-                    <span>Pacote Emissão de Notas:</span>
-                    <span id="resNotas">R$ 0,00</span>
+                    <span>Combo Recomendado:</span>
+                    <span id="resModeloCombo" style="color: var(--primary-accent);">Apurando...</span>
                 </div>
                 
-                <div class="result-row">
-                    <span>Pacote Financeiro (Pagar/Receber):</span>
-                    <span id="resFinanceiro">R$ 0,00</span>
+                <!-- AJUSTADO: Classe neon-highlight adicionada para destaque especial e premium -->
+                <div class="result-row neon-highlight">
+                    <span>Franquia de Enquadramento (Notas):</span>
+                    <span id="resNomeFranquia">Apurando...</span>
                 </div>
                 
-                <div class="result-row">
-                    <span>Pacote Folha de Pagamento:</span>
-                    <span id="resFolha">R$ 0,00</span>
+                <!-- DROPDOWN 1: VALOR FIXO DA FRANQUIA -->
+                <div class="result-row row-toggle" onclick="toggleAccordion('containerFranquia', this)">
+                    <span><span class="toggle-icon">▶</span>Valor Fixo da Franquia (Cheio):</span>
+                    <span id="resValorBaseFranquiaCheio" style="font-weight: 700; color: #F8FAFC;">R$ 0,00</span>
                 </div>
-                
-                <div class="result-row">
-                    <span>Honorário Fiscal & Contábil (Fixo):</span>
-                    <span id="resContabil">R$ 0,00</span>
-                </div>
-
-                <div class="result-row" id="rowDesconto" style="display: none;">
-                    <span>Regra Ativada na Faixa:</span>
-                    <span id="resDescontoPerc" style="color: var(--primary-accent);">Nenhum</span>
-                </div>
-
-                <div id="alertDesconto" style="display: none;">
-                    <div class="badge-discount">
-                        <span id="txtBadge">Estratégia de Desconto Ativa</span>
+                <div class="indent-container" id="containerFranquia">
+                    <div class="result-row indent">
+                        <span id="labelFranquiaNotas">↳ Bloco de Notas:</span>
+                        <span id="detFranquiaNotas">R$ 0,00</span>
                     </div>
+                    <div class="result-row indent">
+                        <span id="labelFranquiaReceber">↳ Contas a Receber:</span>
+                        <span id="detFranquiaReceber">R$ 0,00</span>
+                    </div>
+                    <div class="result-row indent">
+                        <span id="labelFranquiaPagar">↳ Contas a Pagar:</span>
+                        <span id="detFranquiaPagar">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <div class="result-row">
+                    <span>Desconto Estrutural Atingido:</span>
+                    <span id="resDescontoFaixa" style="color: #34D399; font-weight: 600;">0%</span>
+                </div>
+                
+                <div class="result-row" style="background-color: rgba(255,255,255,0.02); padding: 10px 8px; border-radius: 6px; margin: 5px 0;">
+                    <span>Valor da Franquia com Desconto:</span>
+                    <span id="resValorBaseFranquiaFinal" style="color: #61DAFB; font-weight: 700;">R$ 0,00</span>
+                </div>
+
+                <!-- DROPDOWN 2: EVENTOS CALCULADOS COMO EXCEDENTES -->
+                <div class="result-row row-toggle" onclick="toggleAccordion('containerExcedentes', this)">
+                    <span><span class="toggle-icon">▶</span>Eventos Calculados como Excedentes:</span>
+                    <span id="resTotalExcedentes" style="color: #FCA5A5; font-weight: 700;">R$ 0,00</span>
+                </div>
+                <div class="indent-container" id="containerExcedentes">
+                    <div class="result-row indent">
+                        <span id="labelExcedenteNotas">↳ Excedente Notas:</span>
+                        <span id="detExcedenteNotas">R$ 0,00</span>
+                    </div>
+                    <div class="result-row indent">
+                        <span id="labelExcedenteReceber">↳ Excedente Receber:</span>
+                        <span id="detExcedenteReceber">R$ 0,00</span>
+                    </div>
+                    <div class="result-row indent">
+                        <span id="labelExcedentePagar">↳ Excedente Pagar:</span>
+                        <span id="detExcedentePagar">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <div class="result-row">
+                    <span>Módulo Adicional de Folha:</span>
+                    <span id="resTotalFolha">R$ 0,00</span>
+                </div>
+                <div class="result-row">
+                    <span>Honorário Contábil Dinâmico:</span>
+                    <span id="resTotalContabil" style="color: #6EE7B7;">R$ 0,00</span>
                 </div>
             </div>
 
@@ -600,23 +363,115 @@
                     <span>Assinatura Mensal:</span>
                     <span id="resTotal">R$ 0,00</span>
                 </div>
-
                 <div class="result-row yearly-info">
-                    <span>Custo Anual Projetado:</span>
+                    <span>Investimento Anual Projetado:</span>
                     <span id="resTotalAnual">R$ 0,00</span>
                 </div>
 
-                <!-- ATUALIZADO: Bloco Composto de Pontos We.Brasil (Mensal vs Anual) -->
                 <div class="points-container">
                     <div class="points-title">Programa de Fidelidade We.Brasil</div>
                     <div class="result-row points-subrow">
-                        <span>Pontuação Mensal:</span>
+                        <span>Pontos Mensais Necessários:</span>
                         <span id="resPontosMensal">0 pts</span>
                     </div>
-                    <div class="result-row points-subrow">
-                        <span>Pontuação Anual Acumulada:</span>
+                    <div class="points-subtext" id="txtSubPontosMensal">sendo 0 pts de excedentes</div>
+
+                    <div class="result-row points-subrow" style="margin-top: 5px; border-top: 1px dashed rgba(255,255,255,0.05); padding-top: 8px;">
+                        <span>Pontos Anuais Necessários:</span>
                         <span id="resPontosAnual">0 pts</span>
                     </div>
+                    <div class="points-subtext" id="txtSubPontosAnual">sendo 0 pts de excedentes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RETAGUARDA DE PARAMETRIZAÇÃO -->
+    <div class="modal-overlay" id="configModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="color: var(--text-title);">Parametrização do Sistema AbraConta</h3>
+                <button class="btn-close-modal" onclick="toggleModal(false)">Salvar e Fechar</button>
+            </div>
+
+            <div class="section-title" style="margin-top:0;">Tabela Estrutural de Franquias (FLEXÍVEL)</div>
+            <div class="tier-table-wrapper">
+                <table class="tier-table" id="tableFranquias">
+                    <thead>
+                        <tr>
+                            <th>Identificador</th>
+                            <th>Lim. Notas</th>
+                            <th>Lim. Receber</th>
+                            <th>Lim. Pagar</th>
+                            <th>Nota Unit. Base</th>
+                            <th>Receber Unit. Base</th>
+                            <th>Pagar Unit. Base</th>
+                            <th>Desconto (%)</th>
+                            <th style="width: 40px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tierTableBody">
+                        <tr>
+                            <td><input type="text" class="t-nome" value="Pacote 1" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-lim-nota" value="25" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-lim-rec" value="25" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-lim-pag" value="50" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-nota" value="R$ 10,00" onblur="formatarCampoMoeda(this);"></td>
+                            <td><input type="text" class="t-rec" value="R$ 5,00" onblur="formatarCampoMoeda(this);"></td>
+                            <td><input type="text" class="t-pag" value="R$ 5,00" onblur="formatarCampoMoeda(this);"></td>
+                            <td><input type="text" class="t-desc" value="0" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="t-nome" value="Pacote 2" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-lim-nota" value="50" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-lim-rec" value="50" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-lim-pag" value="100" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-nota" value="R$ 10,00" onblur="formatarCampoMoeda(this);"></td>
+                            <td><input type="text" class="t-rec" value="R$ 5,00" onblur="formatarCampoMoeda(this);"></td>
+                            <td><input type="text" class="t-pag" value="R$ 5,00" onblur="formatarCampoMoeda(this);"></td>
+                            <td><input type="text" class="t-desc" value="10" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="t-nome" value="Pacote 3" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-lim-nota" value="100" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-lim-rec" value="100" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-lim-pag" value="200" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-nota" value="R$ 10,00" onblur="formatarCampoMoeda(this);"></td>
+                            <td><input type="text" class="t-rec" value="R$ 5,00" onblur="formatarCampoMoeda(this);"></td>
+                            <td><input type="text" class="t-pag" value="R$ 5,00" onblur="formatarCampoMoeda(this);"></td>
+                            <td><input type="text" class="t-desc" value="15" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <button class="btn-action-tier btn-add-action" onclick="addNewTierRow()">+ Criar Novo Pacote / Volume</button>
+
+            <div class="section-title">Regras de Margem e Piso Dinâmico</div>
+            <div class="grid-inputs">
+                <div class="form-group">
+                    <label>Percentual da Contabilidade sobre a Franquia (%)</label>
+                    <input type="text" id="pctContabilParam" value="50" oninput="diagnosticarEDescobrirPacote()">
+                </div>
+                <div class="form-group">
+                    <label>Piso Mínimo Protegido da Contabilidade (R$)</label>
+                    <input type="text" id="pisoContabil" value="R$ 250,00" onblur="formatarCampoMoeda(this);">
+                </div>
+                <div class="form-group">
+                    <label>Gatilho de Tolerância para Upgrade de Notas (%)</label>
+                    <input type="text" id="toleranciaUpgrade" value="25" oninput="diagnosticarEDescobrirPacote()">
+                </div>
+                <div class="form-group">
+                    <label>Valor Unit. Vidas Folha (R$)</label>
+                    <input type="text" id="baseFolha" value="R$ 10,00" onblur="formatarCampoMoeda(this);">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Equivalência de Pontos We.Brasil (por cada R$ 1,00)</label>
+                    <input type="text" id="fatorConversaoPontos" value="1" oninput="diagnosticarEDescobrirPacote()">
+                    <span class="obs-text">*Define quantos pontos são necessários para cada R$ 1,00.</span>
                 </div>
             </div>
         </div>
@@ -634,155 +489,223 @@
     }
 
     function formatarCampoMoeda(input) {
-        let num = parseBr(input.value);
-        input.value = formatarMoeda(num);
+        input.value = formatarMoeda(parseBr(input.value));
+        diagnosticarEDescobrirPacote();
     }
 
-    function alternarCamposFaixa(selectElement) {
-        const container = selectElement.parentNode.parentNode.querySelector('.container-valores-faixa');
-        if (selectElement.value === 'percentage') {
-            container.innerHTML = `<input type="text" class="tier-pct-val" value="0" placeholder="0">`;
+    function sincronizarContasReceber() {
+        const valNotas = document.getElementById('qtdNotas').value;
+        document.getElementById('qtdReceber').value = valNotas;
+        diagnosticarEDescobrirPacote();
+    }
+
+    function verificarGatilhoFolhaContabil() {
+        const qtdFolha = parseBr(document.getElementById('qtdFolha').value);
+        const chk = document.getElementById('chkContabil');
+        if (qtdFolha > 0) {
+            chk.checked = true;
+            chk.disabled = true;
         } else {
-            container.innerHTML = `
-                <div class="inputs-compostos-preco">
-                    <div><label>Nota</label><input type="text" class="t-val-nota" value="R$ 0,00" onblur="formatarCampoMoeda(this)"></div>
-                    <div><label>Receber</label><input type="text" class="t-val-rec" value="R$ 0,00" onblur="formatarCampoMoeda(this)"></div>
-                    <div><label>Pagar</label><input type="text" class="t-val-pag" value="R$ 0,00" onblur="formatarCampoMoeda(this)"></div>
-                    <div><label>Folha</label><input type="text" class="t-val-fol" value="R$ 0,00" onblur="formatarCampoMoeda(this)"></div>
-                </div>
-            `;
+            chk.disabled = false;
+        }
+        diagnosticarEDescobrirPacote();
+    }
+
+    function toggleAccordion(id, headerEl) {
+        const container = document.getElementById(id);
+        headerEl.classList.toggle('active');
+        if (headerEl.classList.contains('active')) {
+            container.style.maxHeight = container.scrollHeight + "px";
+        } else {
+            container.style.maxHeight = "0px";
         }
     }
 
-    function addTierRow() {
+    function toggleModal(open) {
+        const modal = document.getElementById('configModal');
+        if (open) {
+            modal.classList.add('active');
+        } else {
+            modal.classList.remove('active');
+            diagnosticarEDescobrirPacote();
+        }
+    }
+
+    function addNewTierRow() {
         const tbody = document.getElementById('tierTableBody');
+        const count = tbody.querySelectorAll('tr').length + 1;
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td><input type="text" class="tier-from" value="0"></td>
-            <td><input type="text" class="tier-to" value="0"></td>
-            <td>
-                <select class="tier-type" onchange="alternarCamposFaixa(this)">
-                    <option value="percentage" selected>Percentual de Descon. (%)</option>
-                    <option value="fixed">Preço Unitário Fixo (R$)</option>
-                </select>
-            </td>
-            <td>
-                <div class="container-valores-faixa">
-                    <input type="text" class="tier-pct-val" value="0">
-                </div>
-            </td>
+            <td><input type="text" class="t-nome" value="Pacote ${count}" oninput="diagnosticarEDescobrirPacote()"></td>
+            <td><input type="text" class="t-lim-nota" value="0" oninput="diagnosticarEDescobrirPacote()"></td>
+            <td><input type="text" class="t-lim-rec" value="0" oninput="diagnosticarEDescobrirPacote()"></td>
+            <td><input type="text" class="t-lim-pag" value="0" oninput="diagnosticarEDescobrirPacote()"></td>
+            <td><input type="text" class="t-nota" value="R$ 0,00" onblur="formatarCampoMoeda(this);"></td>
+            <td><input type="text" class="t-rec" value="R$ 0,00" onblur="formatarCampoMoeda(this);"></td>
+            <td><input type="text" class="t-pag" value="R$ 0,00" onblur="formatarCampoMoeda(this);"></td>
+            <td><input type="text" class="t-desc" value="0" oninput="diagnosticarEDescobrirPacote()"></td>
             <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
         `;
         tbody.appendChild(tr);
+        diagnosticarEDescobrirPacote();
     }
 
-    function removeRow(button) {
-        button.parentNode.parentNode.remove();
+    function removeRow(button) { 
+        button.parentNode.parentNode.remove(); 
+        diagnosticarEDescobrirPacote();
     }
 
-    function calcularPreco() {
-        const qtdNotas = parseBr(document.getElementById('qtdNotas').value);
-        const qtdReceber = parseBr(document.getElementById('qtdReceber').value);
-        const qtdPagar = parseBr(document.getElementById('qtdPagar').value);
-        const qtdFolha = parseBr(document.getElementById('qtdFolha').value);
+    function diagnosticarEDescobrirPacote() {
+        const qtdNotasReal = parseBr(document.getElementById('qtdNotas').value);
+        const qtdReceberReal = qtdNotasReal; 
+        const qtdPagarReal = parseBr(document.getElementById('qtdPagar').value);
+        const qtdFolhaReal = parseBr(document.getElementById('qtdFolha').value);
 
-        let valUnitNota = parseBr(document.getElementById('valNota').value);
-        let valUnitRec = parseBr(document.getElementById('valReceber').value);
-        let valUnitPag = parseBr(document.getElementById('valPagar').value);
-        let valUnitFolha = parseBr(document.getElementById('valFolha').value);
-        const valContabilFixo = parseBr(document.getElementById('valContabilFix').value);
+        const valUnitFolha = parseBr(document.getElementById('baseFolha').value);
+        const pisoContabilProtegido = parseBr(document.getElementById('pisoContabil').value);
+        const pctTolerancia = parseBr(document.getElementById('toleranciaUpgrade').value) / 100;
+        const fatorPorcentagemContabil = parseBr(document.getElementById('pctContabilParam').value) / 100;
+        const fConversaoWeBrasil = parseBr(document.getElementById('fatorConversaoPontos').value);
+        
+        const desejaContabil = document.getElementById('chkContabil').checked;
 
-        const totalEventosOperacionais = qtdNotas + qtdReceber + qtdPagar;
+        let comboModel = "notas_only";
+        if (qtdReceberReal > 0 || qtdPagarReal > 0) {
+            comboModel = "notas_financeiro";
+        }
 
         const rows = document.querySelectorAll('#tierTableBody tr');
-        let faixaEncontrada = null;
+        let pacotesLista = [];
+        
+        rows.forEach(row => {
+            pacotesLista.push({
+                nome: row.querySelector('.t-nome').value,
+                limiteNota: parseBr(row.querySelector('.t-lim-nota').value),
+                limiteRec: parseBr(row.querySelector('.t-lim-rec').value),
+                limitePag: parseBr(row.querySelector('.t-lim-pag').value),
+                nota: parseBr(row.querySelector('.t-nota').value),
+                rec: parseBr(row.querySelector('.t-rec').value),
+                pag: parseBr(row.querySelector('.t-pag').value),
+                desc: parseBr(row.querySelector('.t-desc').value)
+            });
+        });
 
-        for (let row of rows) {
-            const de = parseBr(row.querySelector('.tier-from').value);
-            const ate = parseBr(row.querySelector('.tier-to').value);
+        pacotesLista.sort((a, b) => a.limiteNota - b.limiteNota);
 
-            if (totalEventosOperacionais >= de && totalEventosOperacionais <= ate) {
-                faixaEncontrada = row;
+        let pacoteVencedor = pacotesLista[0] || { nome: "Sem Pacote", limiteNota: 25, limiteRec: 25, limitePag: 50, nota: 10, rec: 5, pag: 5, desc: 0 };
+        
+        for (let i = 0; i < pacotesLista.length; i++) {
+            let tetoComToleranciaNota = pacotesLista[i].limiteNota * (1 + pctTolerancia);
+            if (qtdNotasReal <= tetoComToleranciaNota) {
+                pacoteVencedor = pacotesLista[i];
                 break;
             }
-        }
-
-        let badgeMsg = "";
-        let resumoMsg = "Preço Padrão";
-
-        if (faixaEncontrada) {
-            const tipo = faixaEncontrada.querySelector('.tier-type').value;
-            
-            if (tipo === 'percentage') {
-                const pct = parseBr(faixaEncontrada.querySelector('.tier-pct-val').value);
-                if (pct > 0) {
-                    const fator = (100 - pct) / 100;
-                    valUnitNota *= fator;
-                    valUnitRec *= fator;
-                    valUnitPag *= fator;
-                    valUnitFolha *= fator;
-                    resumoMsg = `Desconto de ${pct}%`;
-                    badgeMsg = `Dedução de ${pct}% injetada sobre as tabelas variáveis.`;
-                }
-            } else {
-                const nNota = parseBr(faixaEncontrada.querySelector('.t-val-nota').value);
-                const nRec = parseBr(faixaEncontrada.querySelector('.t-val-rec').value);
-                const nPag = parseBr(faixaEncontrada.querySelector('.t-val-pag').value);
-                const nFol = parseBr(faixaEncontrada.querySelector('.t-val-fol').value);
-
-                if (nNota > 0) valUnitNota = nNota;
-                if (nRec > 0) valUnitRec = nRec;
-                if (nPag > 0) valUnitPag = nPag;
-                if (nFol > 0) valUnitFolha = nFol;
-
-                resumoMsg = "Preços Customizados";
-                badgeMsg = "Preços unitários fixados manualmente para este teto operacional.";
+            if (i === pacotesLista.length - 1) {
+                pacoteVencedor = pacotesLista[i];
             }
         }
 
-        const totalNotas = qtdNotas * valUnitNota;
-        const totalFinanceiro = (qtdReceber * valUnitRec) + (qtdPagar * valUnitPag);
-        const totalFolha = qtdFolha * valUnitFolha;
-        const totalContabil = valContabilFixo;
+        const custoFracaoNotas = pacoteVencedor.limiteNota * pacoteVencedor.nota;
+        const custoFracaoReceber = comboModel === 'notas_financeiro' ? (pacoteVencedor.limiteRec * pacoteVencedor.rec) : 0;
+        const custoFracaoPagar = comboModel === 'notas_financeiro' ? (pacoteVencedor.limitePag * pacoteVencedor.pag) : 0;
 
-        const totalGeral = totalNotas + totalFinanceiro + totalFolha + totalContabil;
+        const subtotalFranquiaCheiaBruta = custoFracaoNotas + custoFracaoReceber + custoFracaoPagar;
         
-        const totalAnual = totalGeral * 12;
-        
-        // CORREÇÃO: Divisão clara entre os pontos mensais e anuais
-        const pontosMensais = Math.floor(totalGeral);
-        const pontosAnuais = Math.floor(totalAnual);
+        const fDesconto = (100 - pacoteVencedor.desc) / 100;
+        const valorFranquiaFinalComDesconto = subtotalFranquiaCheiaBruta * fDesconto;
+        const dinheiroDescontadoReal = subtotalFranquiaCheiaBruta - valorFranquiaFinalComDesconto;
 
-        document.getElementById('resTotalEventos').innerText = `${totalEventosOperacionais} eventos`;
-        document.getElementById('resNotas').innerText = formatarMoeda(totalNotas);
-        document.getElementById('resFinanceiro').innerText = formatarMoeda(totalFinanceiro);
-        document.getElementById('resFolha').innerText = formatarMoeda(totalFolha);
-        document.getElementById('resContabil').innerText = formatarMoeda(totalContabil);
-        
-        document.getElementById('resTotal').innerText = formatarMoeda(totalGeral);
-        document.getElementById('resTotalAnual').innerText = formatarMoeda(totalAnual);
-        
-        // Renderização dos novos indicadores de pontos
-        document.getElementById('resPontosMensal').innerText = `${pontosMensais.toLocaleString('pt-BR')} pts`;
-        document.getElementById('resPontosAnual').innerText = `${pontosAnuais.toLocaleString('pt-BR')} pts`;
-
-        const rowDesconto = document.getElementById('rowDesconto');
-        const divAlert = document.getElementById('alertDesconto');
-        const txtBadge = document.getElementById('txtBadge');
-        const resDescontoPerc = document.getElementById('resDescontoPerc');
-
-        if (badgeMsg !== "") {
-            rowDesconto.style.display = 'flex';
-            divAlert.style.display = 'block';
-            resDescontoPerc.innerText = resumoMsg;
-            txtBadge.innerText = badgeMsg;
-        } else {
-            rowDesconto.style.display = 'none';
-            divAlert.style.display = 'none';
+        let excedenteNotasQtd = 0;
+        let excedenteNotasCusto = 0;
+        if (qtdNotasReal > pacoteVencedor.limiteNota) {
+            excedenteNotasQtd = qtdNotasReal - pacoteVencedor.limiteNota;
+            excedenteNotasCusto = excedenteNotasQtd * pacoteVencedor.nota;
         }
+
+        let excedenteReceberQtd = 0;
+        let excedenteReceberCusto = 0;
+        let excedentePagarQtd = 0;
+        let excedentePagarCusto = 0;
+
+        if (comboModel === 'notas_financeiro') {
+            if (qtdReceberReal > pacoteVencedor.limiteRec) {
+                excedenteReceberQtd = qtdReceberReal - pacoteVencedor.limiteRec;
+                excedenteReceberCusto = excedenteReceberQtd * pacoteVencedor.rec;
+            }
+            if (qtdPagarReal > pacoteVencedor.limitePag) {
+                excedentePagarQtd = qtdPagarReal - pacoteVencedor.limitePag;
+                excedentePagarCusto = excedentePagarQtd * pacoteVencedor.pag;
+            }
+        }
+
+        const totalExcedentes = excedenteNotasCusto + excedenteReceberCusto + excedentePagarCusto;
+        const totalFolha = qtdFolhaReal * valUnitFolha;
+
+        let totalContabil = 0;
+        if (desejaContabil) {
+            totalContabil = valorFranquiaFinalComDesconto * fatorPorcentagemContabil;
+            if (totalContabil < pisoContabilProtegido) {
+                totalContabil = pisoContabilProtegido;
+            }
+        }
+
+        const totalGeralMensal = valorFranquiaFinalComDesconto + totalExcedentes + totalFolha + totalContabil;
+        const totalGeralAnual = totalGeralMensal * 12;
+
+        const pontosMensaisTotaisCalculados = Math.floor(totalGeralMensal * fConversaoWeBrasil);
+        const pontosMensaisExcedentesCalculados = Math.floor(totalExcedentes * fConversaoWeBrasil);
+        
+        const pontosAnuaisTotaisCalculados = Math.floor(totalGeralAnual * fConversaoWeBrasil);
+        const pontosAnuaisExcedentesCalculados = Math.floor((totalExcedentes * 12) * fConversaoWeBrasil);
+
+        document.getElementById('resModeloCombo').innerText = comboModel === 'notas_only' ? 'Apenas Emissão de Notas' : 'Notas + BPO Financeiro';
+        document.getElementById('resNomeFranquia').innerText = pacoteVencedor.nome + ' (Franquia ' + pacoteVencedor.limiteNota + ' Notas)';
+        document.getElementById('resValorBaseFranquiaCheio').innerText = formatarMoeda(subtotalFranquiaCheiaBruta);
+        
+        document.getElementById('labelFranquiaNotas').innerText = `↳ Bloco de Notas: (${pacoteVencedor.limiteNota} un × ${formatarMoeda(pacoteVencedor.nota)})`;
+        document.getElementById('detFranquiaNotas').innerText = formatarMoeda(custoFracaoNotas);
+        
+        document.getElementById('labelFranquiaReceber').innerText = `↳ Contas a Receber: (${pacoteVencedor.limiteRec} un × ${formatarMoeda(pacoteVencedor.rec)})`;
+        document.getElementById('detFranquiaReceber').innerText = formatarMoeda(custoFracaoReceber);
+        
+        document.getElementById('labelFranquiaPagar').innerText = `↳ Contas a Pagar: (${pacoteVencedor.limitePag} un × ${formatarMoeda(pacoteVencedor.pag)})`;
+        document.getElementById('detFranquiaPagar').innerText = formatarMoeda(custoFracaoPagar);
+
+        document.getElementById('resDescontoFaixa').innerText = `${pacoteVencedor.desc}% (- ${formatarMoeda(dinheiroDescontadoReal)})`;
+        document.getElementById('resValorBaseFranquiaFinal').innerText = formatarMoeda(valorFranquiaFinalComDesconto);
+
+        document.getElementById('resTotalExcedentes').innerText = formatarMoeda(totalExcedentes);
+        document.getElementById('labelExcedenteNotas').innerText = `↳ Excedente Notas: (${excedenteNotasQtd} un × ${formatarMoeda(pacoteVencedor.nota)})`;
+        document.getElementById('detExcedenteNotas').innerText = formatarMoeda(excedenteNotasCusto);
+        document.getElementById('labelExcedenteReceber').innerText = `↳ Excedente Receber: (${excedenteReceberQtd} un × ${formatarMoeda(pacoteVencedor.rec)})`;
+        document.getElementById('detExcedenteReceber').innerText = formatarMoeda(excedenteReceberCusto);
+        document.getElementById('labelExcedentePagar').innerText = `↳ Excedente Pagar: (${excedentePagarQtd} un × ${formatarMoeda(pacoteVencedor.pag)})`;
+        document.getElementById('detExcedentePagar').innerText = formatarMoeda(excedentePagarCusto);
+
+        document.getElementById('resTotalFolha').innerText = formatarMoeda(totalFolha);
+        document.getElementById('resTotalContabil').innerText = formatarMoeda(totalContabil);
+        
+        document.getElementById('resTotal').innerText = formatarMoeda(totalGeralMensal);
+        document.getElementById('resTotalAnual').innerText = formatarMoeda(totalGeralAnual);
+        
+        document.getElementById('resPontosMensal').innerText = pontosMensaisTotaisCalculados.toLocaleString('pt-BR') + ' pts';
+        document.getElementById('txtSubPontosMensal').innerText = `sendo ${pontosMensaisExcedentesCalculados.toLocaleString('pt-BR')} pts de excedentes`;
+        document.getElementById('resPontosAnual').innerText = pontosAnuaisTotaisCalculados.toLocaleString('pt-BR') + ' pts';
+        document.getElementById('txtSubPontosAnual').innerText = `sendo ${pontosAnuaisExcedentesCalculados.toLocaleString('pt-BR')} pts de excedentes`;
+
+        ['containerFranquia', 'containerExcedentes'].forEach(id => {
+            const container = document.getElementById(id);
+            if (container && container.style.maxHeight && container.style.maxHeight !== "0px") {
+                container.style.maxHeight = container.scrollHeight + "px";
+            }
+        });
     }
 
-    window.onload = calcularPreco;
+    window.onload = function() {
+        sincronizarContasReceber();
+        verificarGatilhoFolhaContabil();
+        diagnosticarEDescobrirPacote();
+    };
 </script>
 </body>
 </html>
