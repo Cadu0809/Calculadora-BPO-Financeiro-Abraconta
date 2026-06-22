@@ -400,7 +400,7 @@
                     </thead>
                     <tbody id="tierTableBody">
                         <tr>
-                            <td><input type="text" class="t-nome" value="Pacote 1" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-nome" value="Pacote Essencial" oninput="diagnosticarEDescobrirPacote()"></td>
                             <td><input type="text" class="t-lim-nota" value="25" oninput="diagnosticarEDescobrirPacote()"></td>
                             <td><input type="text" class="t-lim-rec" value="25" oninput="diagnosticarEDescobrirPacote()"></td>
                             <td><input type="text" class="t-lim-pag" value="50" oninput="diagnosticarEDescobrirPacote()"></td>
@@ -411,7 +411,7 @@
                             <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
                         </tr>
                         <tr>
-                            <td><input type="text" class="t-nome" value="Pacote 2" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-nome" value="Pacote Intermediário" oninput="diagnosticarEDescobrirPacote()"></td>
                             <td><input type="text" class="t-lim-nota" value="50" oninput="diagnosticarEDescobrirPacote()"></td>
                             <td><input type="text" class="t-lim-rec" value="50" oninput="diagnosticarEDescobrirPacote()"></td>
                             <td><input type="text" class="t-lim-pag" value="100" oninput="diagnosticarEDescobrirPacote()"></td>
@@ -422,7 +422,7 @@
                             <td><button class="btn-remove" onclick="removeRow(this)">×</button></td>
                         </tr>
                         <tr>
-                            <td><input type="text" class="t-nome" value="Pacote 3" oninput="diagnosticarEDescobrirPacote()"></td>
+                            <td><input type="text" class="t-nome" value="Pacote Avançado" oninput="diagnosticarEDescobrirPacote()"></td>
                             <td><input type="text" class="t-lim-nota" value="100" oninput="diagnosticarEDescobrirPacote()"></td>
                             <td><input type="text" class="t-lim-rec" value="100" oninput="diagnosticarEDescobrirPacote()"></td>
                             <td><input type="text" class="t-lim-pag" value="200" oninput="diagnosticarEDescobrirPacote()"></td>
@@ -449,15 +449,15 @@
                 </div>
                 <div class="form-group">
                     <label>Gatilho de Tolerância para Upgrade de Notas (%)</label>
-                    <input type="text" id="toleranciaUpgrade" value="25" oninput="diagnosticarEDescobrirPacote()">
+                    <input type="text" id="toleranciaUpgrade" value="20" oninput="diagnosticarEDescobrirPacote()">
                 </div>
                 <div class="form-group">
                     <label>Valor Unit. Vidas Folha (R$)</label>
-                    <input type="text" id="baseFolha" value="R$ 10,00" onblur="formatarCampoMoeda(this);">
+                    <input type="text" id="baseFolha" value="R$ 70,00" onblur="formatarCampoMoeda(this);">
                 </div>
                 <div class="form-group" style="grid-column: span 2;">
                     <label>Equivalência de Pontos We.Brasil (por cada R$ 1,00)</label>
-                    <input type="text" id="fatorConversaoPontos" value="1" oninput="diagnosticarEDescobrirPacote()">
+                    <input type="text" id="fatorConversaoPontos" value="5" oninput="diagnosticarEDescobrirPacote()">
                 </div>
             </div>
         </div>
