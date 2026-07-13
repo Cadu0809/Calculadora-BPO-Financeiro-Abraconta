@@ -111,22 +111,22 @@
       </div>
 
       <div class="form-grid">
-        <div class="field full">
+        <div class="field full" id="qtdOperacoesField">
           <label for="qtdOperacoes">Operações We.Brasil previstas por mês</label>
           <input id="qtdOperacoes" type="text" inputmode="decimal" value="20" oninput="calcular()">
-          <span class="helper">Cada operação corresponde ao ciclo de emissão, registro e acompanhamento do recebimento originado na We.Brasil.</span>
+          <span class="helper" id="qtdOperacoesHelper">No enquadramento automático, informe o volume mensal previsto para identificar o plano recomendado.</span>
         </div>
         <div class="field">
           <label for="modoPlano">Forma de seleção</label>
-          <select id="modoPlano" onchange="atualizarPlanoManual();calcular()">
+          <select id="modoPlano" onchange="alterarModoPlano()">
             <option value="auto">Enquadramento automático</option>
             <option value="manual">Selecionar plano contratado</option>
           </select>
         </div>
         <div class="field">
           <label for="planoManual">Plano contratado</label>
-          <select id="planoManual" onchange="calcular()" disabled></select>
-          <span class="helper">No modo manual, volumes acima da franquia geram excedente.</span>
+          <select id="planoManual" onchange="sincronizarPlanoManual()" disabled></select>
+          <span class="helper">No modo manual, o volume acompanha automaticamente a franquia do plano contratado.</span>
         </div>
       </div>
 
@@ -298,6 +298,7 @@ const DEFAULTS={
 };
 let state=JSON.parse(JSON.stringify(DEFAULTS));
 let syncingTable=false;
+let ultimaQuantidadeAutomatica=20;
 
 function parseBr(value){
   if(value===null||value===undefined)return 0;
@@ -327,7 +328,9 @@ function mergeState(saved){
 }
 function load(){
   try{const raw=localStorage.getItem(STORAGE_KEY);if(raw)state=mergeState(JSON.parse(raw));}catch(e){console.warn(e)}
-  applyParamFields();renderParamTable();populateManualPlans();applyModuleDefaultsToInputs(false);setMode(state.mode||'entry',false);atualizarPlanoManual();toggleModuleFields();calcular();
+  applyParamFields();renderParamTable();populateManualPlans();applyModuleDefaultsToInputs(false);setMode(state.mode||'entry',false);atualizarPlanoManual();
+  if(document.getElementById('modoPlano').value==='manual')sincronizarPlanoManual(false);
+  toggleModuleFields();calcular();
 }
 function save(){
   try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));setText('saveStatus','Parâmetros salvos neste navegador');}
@@ -386,7 +389,9 @@ function handlePlanParamInput(input){
   const reduction=state.baseUnit>0?Math.max(0,(1-plan.unit/state.baseUnit)*100):0;
   const reductionEl=row.querySelector('[data-role="reduction"]');
   if(reductionEl)reductionEl.textContent=percent(reduction);
-  populateManualPlans();save();calcular();
+  populateManualPlans();
+  if(document.getElementById('modoPlano').value==='manual')sincronizarPlanoManual(false);
+  save();calcular();
 }
 function applyParamFields(){
   document.getElementById('omieParam').value=money(state.omie);
@@ -431,10 +436,49 @@ function populateManualPlans(){
   state.plans.forEach((p,i)=>{const opt=document.createElement('option');opt.value=i;opt.textContent=`${p.name} — ${integer(p.limit)} operações/mês`;sel.appendChild(opt);});
   if(current!==''&&Number(current)<state.plans.length)sel.value=current;
 }
+/* =========================================================
+   CONTROLE DA FORMA DE SELEÇÃO DO PLANO
+   - Automático: a quantidade mensal permanece editável.
+   - Manual: a quantidade fica bloqueada e acompanha a franquia
+     do plano contratado selecionado.
+   ========================================================= */
 function atualizarPlanoManual(){
   const manual=document.getElementById('modoPlano').value==='manual';
+  const qtdInput=document.getElementById('qtdOperacoes');
+  const qtdField=document.getElementById('qtdOperacoesField');
+  const helper=document.getElementById('qtdOperacoesHelper');
+
   document.getElementById('planoManual').disabled=!manual;
+  qtdInput.disabled=manual;
+  qtdField.classList.toggle('disabled',manual);
   setText('resultLabel',manual?'Plano contratado':'Plano recomendado');
+  helper.textContent=manual
+    ?'Quantidade definida pela franquia do plano contratado.'
+    :'No enquadramento automático, informe o volume mensal previsto para identificar o plano recomendado.';
+}
+function alterarModoPlano(){
+  const manual=document.getElementById('modoPlano').value==='manual';
+  const qtdInput=document.getElementById('qtdOperacoes');
+
+  if(manual){
+    ultimaQuantidadeAutomatica=Math.max(0,parseBr(qtdInput.value));
+    atualizarPlanoManual();
+    sincronizarPlanoManual(false);
+  }else{
+    atualizarPlanoManual();
+    qtdInput.value=String(ultimaQuantidadeAutomatica);
+  }
+  calcular();
+}
+function sincronizarPlanoManual(recalcular=true){
+  if(document.getElementById('modoPlano').value!=='manual'){
+    if(recalcular)calcular();
+    return;
+  }
+  const index=Number(document.getElementById('planoManual').value)||0;
+  const plan=state.plans[index]||state.plans[0];
+  document.getElementById('qtdOperacoes').value=String(plan.limit);
+  if(recalcular)calcular();
 }
 function escolherPlano(qtd){
   const sorted=[...state.plans].sort((a,b)=>a.limit-b.limit);
@@ -542,7 +586,9 @@ function resetParams(){
   if(!confirm('Restaurar todos os parâmetros para o padrão aprovado?'))return;
   state=JSON.parse(JSON.stringify(DEFAULTS));localStorage.removeItem(STORAGE_KEY);
   ['chkPayables','chkAccounting','chkPayroll'].forEach(id=>{const el=document.getElementById(id);if(el)el.checked=false;});
-  applyParamFields();renderParamTable();populateManualPlans();applyModuleDefaultsToInputs(true);setMode('entry',false);toggleModuleFields();calcular();
+  applyParamFields();renderParamTable();populateManualPlans();applyModuleDefaultsToInputs(true);setMode('entry',false);
+  document.getElementById('modoPlano').value='auto';ultimaQuantidadeAutomatica=20;document.getElementById('qtdOperacoes').value='20';
+  atualizarPlanoManual();toggleModuleFields();calcular();
 }
 window.addEventListener('keydown',e=>{if(e.key==='Escape')toggleModal(false)});
 window.addEventListener('load',load);
