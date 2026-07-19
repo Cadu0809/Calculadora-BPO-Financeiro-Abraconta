@@ -82,6 +82,20 @@
         </div>
 
         <div class="divider-title">Módulos adicionais</div>
+        <div class="module hidden" id="moduleFinanceiro">
+          <div class="module-head">
+            <div class="module-copy"><strong>Adicionar Gestão Financeira Completa?</strong><span>Contrata Contas a Receber e Contas a Pagar juntos, conforme definido nos parâmetros.</span></div>
+            <label class="switch"><input type="checkbox" id="chkFinanceiro" onchange="toggleFinanceiroCompleto()"><span class="slider"></span></label>
+          </div>
+          <div class="module-body hidden" id="bodyFinanceiro">
+            <div class="field">
+              <label>Composição do financeiro completo</label>
+              <input type="text" id="resFinanceiroCompletoResumo" value="Conforme parâmetros técnicos" disabled>
+              <span class="helper">Os limites de Contas a Receber e Contas a Pagar são buscados automaticamente nas faixas parametrizadas.</span>
+            </div>
+          </div>
+        </div>
+
         <div class="module" id="moduleReceber">
           <div class="module-head">
             <div class="module-copy"><strong>Adicionar Contas a Receber?</strong><span>Módulo próprio para gestão de recebíveis do cliente.</span></div>
@@ -150,6 +164,7 @@
         <div class="summary">
           <div class="group-label">Composição por serviço</div>
           <div class="row money-view"><span id="labelNotas">Notas fiscais</span><span class="value" id="resNotas">R$ 0,00</span></div>
+          <div class="row money-view hidden" id="rowFinanceiro"><span id="labelFinanceiro">Gestão Financeira Completa</span><span class="value" id="resFinanceiro">R$ 0,00</span></div>
           <div class="row money-view"><span id="labelReceber">Contas a Receber</span><span class="value" id="resReceber">R$ 0,00</span></div>
           <div class="row money-view"><span id="labelPagar">Contas a Pagar</span><span class="value" id="resPagar">R$ 0,00</span></div>
           <div class="row money-view"><span>Desconto estrutural</span><span class="value" id="resDesconto">0%</span></div>
@@ -221,6 +236,7 @@
           <div class="param-card"><label for="baseFolha">Valor por vida / folha</label><input type="text" id="baseFolha" value="R$ 70,00" onblur="formatarCampoMoeda(this)"></div>
           <div class="param-card"><label for="fatorConversaoPontos">Pontos por R$ 1,00</label><input type="text" id="fatorConversaoPontos" value="1" oninput="calcular()"></div>
           <div class="param-card"><label for="incExcedentesContabil">Excedentes entram na contabilidade?</label><select id="incExcedentesContabil" onchange="calcular()"><option value="false" selected>Não</option><option value="true">Sim</option></select></div>
+          <div class="param-card"><label for="modeloContratacaoFinanceiro">Modelo de contratação financeira</label><select id="modeloContratacaoFinanceiro" onchange="mudarModeloFinanceiro()"><option value="separado" selected>Separado — Receber e Pagar independentes</option><option value="completo">Financeiro completo — Receber + Pagar juntos</option></select></div>
           <div class="param-card"><label for="modoVisualizacaoResultado">Visualização do resultado</label><select id="modoVisualizacaoResultado" onchange="setModoVisualizacao(this.value)"><option value="padrao">Padrão — valores e pontos</option><option value="pontos">Apenas pontos</option></select></div>
         </div>
       </div>
@@ -341,6 +357,60 @@
       const faixaBase = getFaixaBasePorNotas(lista);
       return limiteServico(faixaBase, tipo);
     }
+    function isFinanceiroCompleto(){
+      return $('modeloContratacaoFinanceiro') && $('modeloContratacaoFinanceiro').value === 'completo';
+    }
+    function atualizarResumoFinanceiroCompleto(faixas){
+      const lista = faixas && faixas.length ? faixas : getFaixas();
+      const rec = volumePadraoModulo('receber', lista);
+      const pag = volumePadraoModulo('pagar', lista);
+      const campo = $('resFinanceiroCompletoResumo');
+      if(campo) campo.value = `${formatarInteiro(rec)} contas a receber + ${formatarInteiro(pag)} contas a pagar`;
+    }
+    function aplicarModeloFinanceiro(){
+      const completo = isFinanceiroCompleto();
+      const moduloFinanceiro = $('moduleFinanceiro');
+      const moduloReceber = $('moduleReceber');
+      const moduloPagar = $('modulePagar');
+      if(moduloFinanceiro) moduloFinanceiro.classList.toggle('hidden', !completo);
+      if(moduloReceber) moduloReceber.classList.toggle('hidden', completo);
+      if(moduloPagar) moduloPagar.classList.toggle('hidden', completo);
+      if(completo){
+        const ativo = $('chkFinanceiro') && $('chkFinanceiro').checked;
+        $('chkReceber').checked = !!ativo;
+        $('chkPagar').checked = !!ativo;
+        $('bodyReceber').classList.add('hidden');
+        $('bodyPagar').classList.add('hidden');
+        $('bodyFinanceiro').classList.toggle('hidden', !ativo);
+        if(ativo){
+          const faixas = getFaixas();
+          sincronizarModuloComParametros('receber', faixas, true);
+          sincronizarModuloComParametros('pagar', faixas, true);
+        } else {
+          $('qtdReceber').value = '0'; $('qtdPagar').value = '0';
+          $('qtdReceber').dataset.manual = '0'; $('qtdPagar').dataset.manual = '0';
+        }
+        atualizarResumoFinanceiroCompleto(getFaixas());
+      } else {
+        if($('bodyFinanceiro')) $('bodyFinanceiro').classList.add('hidden');
+        $('bodyReceber').classList.toggle('hidden', !$('chkReceber').checked);
+        $('bodyPagar').classList.toggle('hidden', !$('chkPagar').checked);
+      }
+    }
+    function mudarModeloFinanceiro(){
+      if(isFinanceiroCompleto()){
+        const estavaAtivo = $('chkReceber').checked || $('chkPagar').checked || parseBr($('qtdReceber').value) > 0 || parseBr($('qtdPagar').value) > 0;
+        $('chkFinanceiro').checked = estavaAtivo;
+        if(estavaAtivo){$('chkReceber').checked = true; $('chkPagar').checked = true;}
+      } else {
+        if($('chkFinanceiro').checked){$('chkReceber').checked = true; $('chkPagar').checked = true;}
+        $('chkFinanceiro').checked = false;
+      }
+      $('qtdReceber').dataset.manual = '0';
+      $('qtdPagar').dataset.manual = '0';
+      aplicarModeloFinanceiro();
+      calcular();
+    }
     function sincronizarModuloComParametros(tipo, faixas, force=false){
       const nome = tipo[0].toUpperCase()+tipo.slice(1);
       const chk = $(`chk${nome}`);
@@ -361,6 +431,15 @@
       const faixas = getFaixas();
       sincronizarModuloComParametros('receber', faixas);
       sincronizarModuloComParametros('pagar', faixas);
+      calcular();
+    }
+    function toggleFinanceiroCompleto(){
+      const ativo = $('chkFinanceiro').checked;
+      $('chkReceber').checked = ativo;
+      $('chkPagar').checked = ativo;
+      $('qtdReceber').dataset.manual = '0';
+      $('qtdPagar').dataset.manual = '0';
+      aplicarModeloFinanceiro();
       calcular();
     }
     function toggleModulo(tipo){
@@ -393,11 +472,13 @@
 
     function calcular(){
       const faixas = getFaixas();
-      sincronizarModuloComParametros('receber', faixas);
-      sincronizarModuloComParametros('pagar', faixas);
+      aplicarModeloFinanceiro();
+      sincronizarModuloComParametros('receber', faixas, isFinanceiroCompleto());
+      sincronizarModuloComParametros('pagar', faixas, isFinanceiroCompleto());
       let notas = enquadrar($('qtdNotas').value, faixas, 'nota');
-      const receberAtivo = $('chkReceber').checked;
-      const pagarAtivo = $('chkPagar').checked;
+      const financeiroCompleto = isFinanceiroCompleto();
+      const receberAtivo = financeiroCompleto ? $('chkFinanceiro').checked : $('chkReceber').checked;
+      const pagarAtivo = financeiroCompleto ? $('chkFinanceiro').checked : $('chkPagar').checked;
       const contabilAtivo = $('chkContabil').checked;
       let receber = receberAtivo ? enquadrar($('qtdReceber').value, faixas, 'receber') : null;
       let pagar = pagarAtivo ? enquadrar($('qtdPagar').value, faixas, 'pagar') : null;
@@ -436,28 +517,57 @@
       $('resSubPlano').innerText = totalExcedentes > 0 ? 'Faixa máxima com adicional acima do limite parametrizado.' : 'Enquadramento pela maior faixa entre os módulos contratados.';
       $('chipNotas').innerText = `${formatarInteiro(notas.unidadesBase || notas.limiteFaixa)} notas`;
       $('chipNotas').classList.toggle('red', notas.excedente>0);
-      $('chipReceber').innerText = receberAtivo ? `${formatarInteiro(receber.unidadesBase || receber.limiteFaixa)} contas a receber` : 'Receber não contratado';
-      $('chipReceber').classList.toggle('muted', !receberAtivo); $('chipReceber').classList.toggle('red', receberAtivo && receber.excedente>0);
-      $('chipPagar').innerText = pagarAtivo ? `${formatarInteiro(pagar.unidadesBase || pagar.limiteFaixa)} contas a pagar` : 'Pagar não contratado';
-      $('chipPagar').classList.toggle('muted', !pagarAtivo); $('chipPagar').classList.toggle('red', pagarAtivo && pagar.excedente>0);
+      if(financeiroCompleto){
+        $('chipReceber').innerText = receberAtivo ? `Financeiro completo: ${formatarInteiro(receber.unidadesBase || receber.limiteFaixa)} receber + ${formatarInteiro(pagar.unidadesBase || pagar.limiteFaixa)} pagar` : 'Financeiro não contratado';
+        $('chipReceber').classList.toggle('muted', !receberAtivo);
+        $('chipReceber').classList.toggle('red', receberAtivo && (receber.excedente>0 || pagar.excedente>0));
+        $('chipPagar').classList.add('hidden');
+      } else {
+        $('chipPagar').classList.remove('hidden');
+        $('chipReceber').innerText = receberAtivo ? `${formatarInteiro(receber.unidadesBase || receber.limiteFaixa)} contas a receber` : 'Receber não contratado';
+        $('chipReceber').classList.toggle('muted', !receberAtivo); $('chipReceber').classList.toggle('red', receberAtivo && receber.excedente>0);
+        $('chipPagar').innerText = pagarAtivo ? `${formatarInteiro(pagar.unidadesBase || pagar.limiteFaixa)} contas a pagar` : 'Pagar não contratado';
+        $('chipPagar').classList.toggle('muted', !pagarAtivo); $('chipPagar').classList.toggle('red', pagarAtivo && pagar.excedente>0);
+      }
       $('chipContabil').innerText = contabilAtivo ? 'Fiscal & Contábil contratado' : 'Contábil não contratado';
       $('chipContabil').classList.toggle('muted', !contabilAtivo);
 
       $('metricNotas').innerText = notas.excedente>0 ? `${formatarInteiro(notas.limiteMax)} + ${formatarInteiro(notas.excedente)}` : `Até ${formatarInteiro(notas.limiteFaixa)}`;
       $('metricNotasSub').innerText = `${formatarMoeda(notas.faixa.nota)} por nota`;
-      $('metricReceberBox').className = receberAtivo ? 'metric good' : 'metric';
-      $('metricReceber').innerText = receberAtivo ? (receber.excedente>0 ? `${formatarInteiro(receber.limiteMax)} + ${formatarInteiro(receber.excedente)}` : `Até ${formatarInteiro(receber.limiteFaixa)}`) : 'Não contratado';
-      $('metricReceberSub').innerText = receberAtivo ? `${formatarMoeda(receber.faixa.receber)} por recebível` : 'Módulo opcional';
-      $('metricPagarBox').className = pagarAtivo ? 'metric good' : 'metric';
-      $('metricPagar').innerText = pagarAtivo ? (pagar.excedente>0 ? `${formatarInteiro(pagar.limiteMax)} + ${formatarInteiro(pagar.excedente)}` : `Até ${formatarInteiro(pagar.limiteFaixa)}`) : 'Não contratado';
-      $('metricPagarSub').innerText = pagarAtivo ? `${formatarMoeda(pagar.faixa.pagar)} por conta a pagar` : 'Módulo opcional';
+      if(financeiroCompleto){
+        $('metricReceberBox').className = receberAtivo ? 'metric good' : 'metric';
+        $('metricReceberBox').querySelector('.m-label').innerText = 'Gestão financeira completa';
+        $('metricReceber').innerText = receberAtivo ? `${formatarInteiro(receber.limiteFaixa)} receber + ${formatarInteiro(pagar.limiteFaixa)} pagar` : 'Não contratado';
+        $('metricReceberSub').innerText = receberAtivo ? 'Contas a Receber + Contas a Pagar' : 'Módulo opcional';
+        $('metricPagarBox').classList.add('hidden');
+      } else {
+        $('metricPagarBox').classList.remove('hidden');
+        $('metricReceberBox').querySelector('.m-label').innerText = 'Contas a Receber';
+        $('metricReceberBox').className = receberAtivo ? 'metric good' : 'metric';
+        $('metricReceber').innerText = receberAtivo ? (receber.excedente>0 ? `${formatarInteiro(receber.limiteMax)} + ${formatarInteiro(receber.excedente)}` : `Até ${formatarInteiro(receber.limiteFaixa)}`) : 'Não contratado';
+        $('metricReceberSub').innerText = receberAtivo ? `${formatarMoeda(receber.faixa.receber)} por recebível` : 'Módulo opcional';
+        $('metricPagarBox').className = pagarAtivo ? 'metric good' : 'metric';
+        $('metricPagar').innerText = pagarAtivo ? (pagar.excedente>0 ? `${formatarInteiro(pagar.limiteMax)} + ${formatarInteiro(pagar.excedente)}` : `Até ${formatarInteiro(pagar.limiteFaixa)}`) : 'Não contratado';
+        $('metricPagarSub').innerText = pagarAtivo ? `${formatarMoeda(pagar.faixa.pagar)} por conta a pagar` : 'Módulo opcional';
+      }
 
       $('labelNotas').innerText = `Notas fiscais (${formatarInteiro(notas.unidadesBase)} × ${formatarMoeda(notas.faixa.nota)})`;
       $('resNotas').innerText = formatarMoeda(notaCalc.base);
-      $('labelReceber').innerText = receberAtivo ? `Contas a Receber (${formatarInteiro(receber.unidadesBase)} × ${formatarMoeda(receber.faixa.receber)})` : 'Contas a Receber não contratado';
-      $('resReceber').innerText = formatarMoeda(recCalc.base);
-      $('labelPagar').innerText = pagarAtivo ? `Contas a Pagar (${formatarInteiro(pagar.unidadesBase)} × ${formatarMoeda(pagar.faixa.pagar)})` : 'Contas a Pagar não contratado';
-      $('resPagar').innerText = formatarMoeda(pagCalc.base);
+      if(financeiroCompleto){
+        $('rowFinanceiro').classList.toggle('hidden', !receberAtivo);
+        $('labelFinanceiro').innerText = receberAtivo ? `Gestão Financeira Completa (${formatarInteiro(receber.unidadesBase)} receber + ${formatarInteiro(pagar.unidadesBase)} pagar)` : 'Gestão Financeira Completa';
+        $('resFinanceiro').innerText = receberAtivo ? formatarMoeda(recCalc.base + pagCalc.base) : 'Não contratado';
+        $('labelReceber').closest('.row').classList.add('hidden');
+        $('labelPagar').closest('.row').classList.add('hidden');
+      } else {
+        $('rowFinanceiro').classList.add('hidden');
+        $('labelReceber').closest('.row').classList.remove('hidden');
+        $('labelPagar').closest('.row').classList.remove('hidden');
+        $('labelReceber').innerText = receberAtivo ? `Contas a Receber (${formatarInteiro(receber.unidadesBase)} × ${formatarMoeda(receber.faixa.receber)})` : 'Contas a Receber não contratado';
+        $('resReceber').innerText = formatarMoeda(recCalc.base);
+        $('labelPagar').innerText = pagarAtivo ? `Contas a Pagar (${formatarInteiro(pagar.unidadesBase)} × ${formatarMoeda(pagar.faixa.pagar)})` : 'Contas a Pagar não contratado';
+        $('resPagar').innerText = formatarMoeda(pagCalc.base);
+      }
       $('resDesconto').innerText = `${formatarInteiro(descontoPct)}% (- ${formatarMoeda(descontoValor)})`;
       $('resSubtotal').innerText = formatarMoeda(subtotalModulos);
       $('rowExcedente').className = totalExcedentes > 0 ? 'row alert money-view' : 'row highlight money-view';
@@ -518,9 +628,9 @@
     }
     function obterEstado(){
       return {
-        qtdNotas:$('qtdNotas').value, chkReceber:$('chkReceber').checked, qtdReceber:$('qtdReceber').value, manualReceber:$('qtdReceber').dataset.manual || '0',
+        qtdNotas:$('qtdNotas').value, chkFinanceiro:$('chkFinanceiro').checked, chkReceber:$('chkReceber').checked, qtdReceber:$('qtdReceber').value, manualReceber:$('qtdReceber').dataset.manual || '0',
         chkPagar:$('chkPagar').checked, qtdPagar:$('qtdPagar').value, manualPagar:$('qtdPagar').dataset.manual || '0', chkContabil:$('chkContabil').checked, qtdFolha:$('qtdFolha').value,
-        parametros:{pctContabilParam:$('pctContabilParam').value,pisoContabil:$('pisoContabil').value,baseFolha:$('baseFolha').value,fatorConversaoPontos:$('fatorConversaoPontos').value,incExcedentesContabil:$('incExcedentesContabil').value,modoVisualizacaoResultado:$('modoVisualizacaoResultado').value},
+        parametros:{pctContabilParam:$('pctContabilParam').value,pisoContabil:$('pisoContabil').value,baseFolha:$('baseFolha').value,fatorConversaoPontos:$('fatorConversaoPontos').value,incExcedentesContabil:$('incExcedentesContabil').value,modeloContratacaoFinanceiro:$('modeloContratacaoFinanceiro').value,modoVisualizacaoResultado:$('modoVisualizacaoResultado').value},
         faixas:Array.from(document.querySelectorAll('#tierTableBody tr')).map(row=>({nome:row.querySelector('.t-nome').value,limiteNota:row.querySelector('.t-lim-nota')?.value,limiteReceber:row.querySelector('.t-lim-receber')?.value,limitePagar:row.querySelector('.t-lim-pagar')?.value,nota:row.querySelector('.t-nota').value,receber:row.querySelector('.t-receber').value,pagar:row.querySelector('.t-pagar').value,desc:row.querySelector('.t-desc').value})),
         salvoEm:new Date().toISOString()
       };
@@ -534,13 +644,13 @@
       try{
         const raw=localStorage.getItem(STORAGE_KEY); if(!raw) return false;
         const st=JSON.parse(raw); restaurandoEstado=true;
-        $('qtdNotas').value=st.qtdNotas??'20'; $('chkReceber').checked=!!st.chkReceber; $('qtdReceber').value=st.qtdReceber??'0'; $('chkPagar').checked=!!st.chkPagar; $('qtdPagar').value=st.qtdPagar??'0'; $('chkContabil').checked=!!st.chkContabil; $('qtdFolha').value=st.qtdFolha??'0';
+        $('qtdNotas').value=st.qtdNotas??'20'; $('chkFinanceiro').checked=!!st.chkFinanceiro; $('chkReceber').checked=!!st.chkReceber; $('qtdReceber').value=st.qtdReceber??'0'; $('chkPagar').checked=!!st.chkPagar; $('qtdPagar').value=st.qtdPagar??'0'; $('chkContabil').checked=!!st.chkContabil; $('qtdFolha').value=st.qtdFolha??'0';
         $('qtdReceber').dataset.manual = st.manualReceber === '1' ? '1' : '0';
         $('qtdPagar').dataset.manual = st.manualPagar === '1' ? '1' : '0';
         if(st.parametros){Object.entries(st.parametros).forEach(([id,v])=>{if($(id)) $(id).value=v;});}
         if(Array.isArray(st.faixas)&&st.faixas.length){$('tierTableBody').innerHTML=''; st.faixas.forEach(f=>$('tierTableBody').appendChild(criarLinhaFaixa(f)));} else carregarFaixasPadrao();
         $('bodyReceber').classList.toggle('hidden', !$('chkReceber').checked); $('bodyPagar').classList.toggle('hidden', !$('chkPagar').checked);
-        aplicarLabelsTabelaMobile(); atualizarDisponibilidadeFolha(); restaurandoEstado=false; $('saveStatus').innerText='Última versão carregada'; return true;
+        aplicarLabelsTabelaMobile(); aplicarModeloFinanceiro(); atualizarDisponibilidadeFolha(); restaurandoEstado=false; $('saveStatus').innerText='Última versão carregada'; return true;
       }catch(e){restaurandoEstado=false; console.warn(e); return false;}
     }
     function resetarPadrao(){
@@ -560,6 +670,7 @@
       carregarFaixasPadrao();
       const ok = restaurarEstado();
       if(!ok){atualizarDisponibilidadeFolha();}
+      aplicarModeloFinanceiro();
       setModoVisualizacao($('modoVisualizacaoResultado').value || 'padrao');
       setTimeout(()=>{$('saveStatus').innerText='Salvo neste navegador';},2200);
     };
